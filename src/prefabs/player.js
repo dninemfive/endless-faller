@@ -1,15 +1,10 @@
-class Rocket extends Phaser.GameObjects.Sprite{
+class Player extends Phaser.GameObjects.Sprite{
     constructor(scene, x, y, texture, frame){
         super(scene, x, y, texture, frame);
         // add an instance to scene
         scene.add.existing(this);
-        this.isFiring = false;
         this.moveSpeed = 2;
-        this.sfxRocket = scene.sound.add('sfx_rocket');
-        if(useMouse){
-            // from https://phaser.discourse.group/t/detect-click-event-anywhere-on-canvas/924
-            this.scene.input.on('pointerdown', () => this.fire());
-        }           
+        this.hp = 10; // can be whatever
     }
     
     update(){
@@ -31,9 +26,6 @@ class Rocket extends Phaser.GameObjects.Sprite{
             if(Phaser.Input.Keyboard.JustDown(keyF)){
                 this.fire();
             }
-        }        
-        if(this.isFiring && this.y >= borderUISize * 3 + borderPadding){
-            this.y -= this.moveSpeed;
         }
         if(this.y <= borderUISize * 3 + borderPadding){
             this.reset();

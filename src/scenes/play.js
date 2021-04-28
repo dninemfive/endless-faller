@@ -11,39 +11,9 @@ class Play extends Phaser.Scene {
     }
 
     create(){
-        this.starfield = this.add.tileSprite(0,0,640,480,"starfield").setOrigin(0,0);
-
-        // rocket
-        this.rocket = new Rocket(this, game.config.width / 2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);    
-        // spaceships
-        this.ships = [];
-
-        // adds ship from the top to the bottom of the screen
-        for(let i = 0; i < numShips; i++){
-            this.ships.push(new Spaceship(
-                this,
-                game.config.width + borderUISize * (2 * (numShips - i - 1)),
-                borderUISize * (4 + i) + borderPadding * (2 * i),
-                'spaceship', 0,
-                10 * (numShips - i)
-            ).setOrigin(0,0));
-        }
-
-        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0,0);
-        // white borders
-        this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);      
-        
-        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        if(useMouse){
-            // from https://phaser.discourse.group/t/detect-click-event-anywhere-on-canvas/924
-            this.input.on('pointerdown', () => this.fire());
-        }    
+        this.player = new Player(this, game.config.width / 2, game.config.height - borderUISize - borderPadding, 'player').setOrigin(0.5, 0);    
+        this.keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        this.keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
         this.anims.create({ key: "explode", frames: this.anims.generateFrameNumbers("explosion", { start: 0, end: 9, first: 0}), frameRate: 30 });
 
@@ -63,23 +33,11 @@ class Play extends Phaser.Scene {
 
     update(){
         if(this.gameOver){
-            if(Phaser.Input.Keyboard.JustDown(keyR)){
-                this.scene.restart();
-            } else if(Phaser.Input.Keyboard.JustDown(keyLEFT)){
-                this.scene.start("menu");                
-            }
+            this.scene.start("lose"); 
         } else {
-            this.rocket.update();
-            for (let ship of this.ships){
-                ship.update();
-                if (this.checkCollision(this.rocket, ship)){
-                    this.rocket.reset();
-                    this.shipExplode(ship);
-                    this.timeRemaining += timeGainOnKill;
-                }
-            }
+            this.player.update();
         }
-        this.starfield.tilePositionX -= 4;
+        this.starfield.tilePositionY -= 4;
     }
 
     checkCollision(rocket, ship) {
