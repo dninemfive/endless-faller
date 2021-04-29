@@ -1,6 +1,6 @@
-class Lose extends Phaser.Scene {
+class Menu extends Phaser.Scene {
     constructor(){
-        super("lose");
+        super("menu");
     }
 
     preload(){
@@ -10,14 +10,14 @@ class Lose extends Phaser.Scene {
     }
 
     create(){
-        this.add.text(game.config.width / 2, borderUISize + borderPadding, " YOU LOST ", textConfig).setOrigin(0.5);
+        this.add.text(game.config.width / 2, borderUISize + borderPadding, " MAIN MENU ", textConfig).setOrigin(0.5);
         // might want to make this any key eventually
         this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
     update(){
         if (Phaser.Input.Keyboard.JustDown(this.keySPACE)){
-            this.scene.start("menu");
+            this.scene.start("play");
         }
     }
 }
