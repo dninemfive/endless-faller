@@ -20,8 +20,6 @@ class Play extends Phaser.Scene {
         textConfig.fixedWidth = 100;
         this.score = 0;        
         this.scoreLabel = this.add.text(borderUISize + borderPadding, borderUISize + (borderPadding * 2), this.score, textConfig);
-        this.timeRemaining = game.settings.gameTimer;
-        this.timerLabel = this.add.text(game.config.width - (borderUISize + (borderPadding * 2)), borderUISize + (borderPadding * 2), this.timeRemaining, textConfig).setOrigin(1, 0);
 
         // timer
         this.gameOver = false;
