@@ -10,7 +10,7 @@ let game = new Phaser.Game(config);
 let borderUISize = game.config.height / 15;
 let borderPadding = borderUISize / 3;
 
-// controls are no longer globals because why
+let keyLEFT, keyRIGHT; // globals so that player.update() can access them
 
 // if we make this a global we don't have to copy this to multiple contexts >.>
 let textConfig = {
