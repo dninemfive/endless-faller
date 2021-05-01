@@ -7,9 +7,11 @@ class Player extends Phaser.GameObjects.Sprite{
     }
     
     update(){        
-        if(keyLEFT.isDown) {
+        let leftWall = this.scene.leftWall;
+        let rightWall = this.scene.rightWall;
+        if(keyLEFT.isDown && this.x > (leftWall.width * leftWall.scale) + (this.width * this.scale) / 2) {
             this.x -= this.moveSpeed;
-        } else if(keyRIGHT.isDown){
+        } else if(keyRIGHT.isDown && this.x < game.config.width - (rightWall.width * rightWall.scale) - (this.width * this.scale) / 2){
             this.x += this.moveSpeed;
         }
     }

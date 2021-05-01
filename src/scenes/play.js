@@ -42,7 +42,7 @@ class Play extends Phaser.Scene {
         } else {
             this.player.update();
         }
-        this.zoom(1.001);
+        //this.zoom(1.001);
     }
 
     checkCollision(player, obstacle) {
@@ -60,8 +60,7 @@ class Play extends Phaser.Scene {
     zoom(amount){
         this.background.setScale(this.background.scale * amount);
         this.player.setScale(this.player.scale * amount);
-        this.leftWall.setScale(this.leftWall.scale * amount);
-        // move left wall left by half its width over the amount (inverting if amount < 0)
+        this.leftWall.setScale(this.leftWall.scale * amount);        
         this.rightWall.setScale(this.rightWall.scale * amount);
     }
 }
