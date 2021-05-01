@@ -35,6 +35,8 @@ class Play extends Phaser.Scene {
     }
 
     update(){
+        this.leftWall.tilePositionY += playerSpeed;
+        this.rightWall.tilePositionY += playerSpeed;
         if(this.gameOver){
             this.scene.start("lose"); 
         } else {

@@ -14,7 +14,8 @@ let keyLEFT, keyRIGHT; // globals so that player.update() can access them
 
 // global settings
 let playerScale = 0.1,
-    wallScale = 0.2; 
+    wallScale = 0.2,
+    playerSpeed = 3;
 
 // if we make this a global we don't have to copy this to multiple contexts >.>
 let textConfig = {
