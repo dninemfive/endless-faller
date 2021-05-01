@@ -6,16 +6,22 @@ class Play extends Phaser.Scene {
     preload(){
         this.load.image("background", "assets/PlanetSkyScapeSmaller.png");
         this.load.image("player", "assets/FallingMan.gif");
+        this.load.image("leftWall", "assets/FallingFallingBordersLeft.png");
+        this.load.image("rightWall", "assets/FallingFallingBordersRight.png");
         //this.load.spritesheet("explosion", "assets/explosion.png", { frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9 });
     }
 
     create(){
         this.background = this.add.sprite(game.config.width / 2, 0,"background").setOrigin(0.5,0);
         this.background.setScale(game.config.width / this.background.width);
+        this.leftWall = this.add.tileSprite(0, 0, 0, 0, "leftWall");
+        this.leftWall.setScale(wallScale);
+        this.rightWall = this.add.tileSprite(0, 0, 0, 0, "rightWall"); // can't use SetOrigin on TileSprites, which makes math significantly harder :(
+        this.rightWall.setScale(wallScale);
         this.player = new Player(this, game.config.width / 2, game.config.height / 2, "player").setOrigin(0.5, 0.5);
-        this.player.setScale(defaultPlayerWidth);
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        this.player.setScale(playerScale);
+        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
         //this.anims.create({ key: "explode", frames: this.anims.generateFrameNumbers("explosion", { start: 0, end: 9, first: 0}), frameRate: 30 });
 
