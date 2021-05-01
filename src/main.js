@@ -16,7 +16,8 @@ let keyLEFT, keyRIGHT; // globals so that player.update() can access them
 let playerScale = 0.1,
     wallScale = 0.2,
     playerSpeed = 3,
-    playerStartPos = 0.3; // vertical location of the player, as a proportion of screen height
+    playerStartPos = 0.3, // vertical location of the player, as a proportion of screen height
+    backgroundScaleFactor = 0.9; // modifies the amount the background moves, for parallax purposes
 
 // if we make this a global we don't have to copy this to multiple contexts >.>
 let textConfig = {
