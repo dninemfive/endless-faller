@@ -8,6 +8,7 @@ class Play extends Phaser.Scene {
         this.load.image("player", "assets/FallingMan.gif");
         this.load.image("leftWall", "assets/FallingFallingBordersLeft.png");
         this.load.image("rightWall", "assets/FallingFallingBordersRight.png");
+        this.load.image("leftObstacle", "assets/ObstacleBalconyLeft.png");
         //this.load.spritesheet("explosion", "assets/explosion.png", { frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9 });
     }
 
@@ -32,17 +33,26 @@ class Play extends Phaser.Scene {
         // timer
         this.gameOver = false;
         textConfig.fixedWidth = 0;
+        this.counter = 0;
+        this.obstacles = [];
     }
 
     update(){
-        this.leftWall.tilePositionY += playerSpeed;
-        this.rightWall.tilePositionY += playerSpeed;
+        this.leftWall.tilePositionY += fallSpeed;
+        this.rightWall.tilePositionY += fallSpeed;
         if(this.gameOver){
             this.scene.start("lose"); 
         } else {
             this.player.update();
         }
         //this.zoom(1.001);
+        if(((++this.counter) % 1000) == 0){
+            console.log("trying to spawn a new obstacle");
+            this.obstacles.add(new Obstacle(this, game.config.width / 2, game.config.height / 2, "leftObstacle").setOrigin(0,0));
+        }
+        for(let obstacle of this.obstacles){
+            obstacle.update();
+        }
     }
 
     checkCollision(player, obstacle) {
