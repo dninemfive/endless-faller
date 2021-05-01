@@ -12,7 +12,8 @@ class Play extends Phaser.Scene {
     create(){
         this.background = this.add.sprite(game.config.width / 2, 0,"background").setOrigin(0.5,0);
         this.background.setScale(game.config.width / this.background.width);
-        this.player = new Player(this, game.config.width / 2, game.config.height - borderUISize - borderPadding, "player").setOrigin(0.5, 0);    
+        this.player = new Player(this, game.config.width / 2, game.config.height / 2, "player").setOrigin(0.5, 0.5);
+        this.player.setScale(defaultPlayerWidth);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 

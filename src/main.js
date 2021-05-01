@@ -12,6 +12,9 @@ let borderPadding = borderUISize / 3;
 
 let keyLEFT, keyRIGHT; // globals so that player.update() can access them
 
+// global settings
+let defaultPlayerWidth = 0.1;
+
 // if we make this a global we don't have to copy this to multiple contexts >.>
 let textConfig = {
     fontFamily: "Courier",
