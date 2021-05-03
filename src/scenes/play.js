@@ -59,6 +59,7 @@ class Play extends Phaser.Scene {
                 this.title.setVisible(false);
                 this.startText.setVisible(false);
                 this.delayCounter = obstacleDelay;
+                this.startText.alpha = 0;
                 break;
             default:
                 this.setZoom(this.zoom);
