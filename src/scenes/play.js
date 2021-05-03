@@ -135,6 +135,7 @@ class Play extends Phaser.Scene {
             this.scene.start("lose"); 
         }
         this.background.y -= this.fallSpeed * backgroundScaleFactor;
+        this.background.x = (game.config.width / 2) - (this.player.x * backgroundScaleFactor * 10);
         this.fallSpeed = Phaser.Math.Clamp(this.fallSpeed, initialFallSpeed, maxFallSpeed);
         if(this.blackout.alpha > 0){
             this.blackout.alpha -= blackoutFadeout;
