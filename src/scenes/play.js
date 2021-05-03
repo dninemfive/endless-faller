@@ -95,12 +95,5 @@ class Play extends Phaser.Scene {
         this.leftWall.tilePositionY += obstacleDamage * game.config.height * extraMoveAmt * 5;
         this.rightWall.tilePositionY += obstacleDamage * game.config.height * extraMoveAmt * 5;
         this.fallSpeed -= fallSpeedDamage;
-    }
-
-    zoom(amount){
-        this.background.setScale(this.background.scale * amount);
-        this.player.setScale(this.player.scale * amount);
-        this.leftWall.setScale(this.leftWall.scale * amount);        
-        this.rightWall.setScale(this.rightWall.scale * amount);
-    }
+    }    
 }

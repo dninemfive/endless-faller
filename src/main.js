@@ -1,7 +1,7 @@
 let config = {
     type: Phaser.CANVAS,
-    width: 960,
-    height: 540,
+    width: 1000,
+    height: 750,
     scene: [Menu, Play, Lose, Lore],
     autoCenter: Phaser.CENTER_HORIZONTALLY
 };
@@ -26,7 +26,7 @@ let playerScale = 0.15,
     obstacleDamage = 0.333,         // amount of damage the player takes from obstacles
     fallSpeedDamage = 5,            // how much the player slows down when hitting an obstacle. will never fall below the initial fall speed
     playerHealthPerTick = 0.001,    // amount the player heals each tick
-    backgroundScaleFactor = 0.01;   // modifies the amount the background moves, for parallax purposes
+    backgroundScaleFactor = 0.001;   // modifies the amount the background moves, for parallax purposes
 
 // if we make this a global we don't have to copy this to multiple contexts >.>
 let textConfig = {
