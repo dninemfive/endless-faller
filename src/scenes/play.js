@@ -69,7 +69,7 @@ class Play extends Phaser.Scene {
         }       
         if(this.player.hp <= 0) this.scene.start("lose"); 
         this.background.y -= this.fallSpeed * backgroundScaleFactor;
-        Phaser.Math.Clamp(this.fallSpeed, initialFallSpeed, maxFallSpeed);
+        this.fallSpeed = Phaser.Math.Clamp(this.fallSpeed, initialFallSpeed, maxFallSpeed);
     }
 
     checkCollision(player, obstacle) {
