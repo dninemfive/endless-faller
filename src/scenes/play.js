@@ -9,7 +9,8 @@ class Play extends Phaser.Scene {
         this.load.image("leftWall", "assets/FallingFallingBordersLeft.png");
         this.load.image("rightWall", "assets/FallingFallingBordersRight.png");
         this.load.image("leftObstacle", "assets/ObstacleBalconyLeft.png");
-        this.load.image("rightObstacle", "assets/ObstacleBalconyRight.png");        
+        this.load.image("rightObstacle", "assets/ObstacleBalconyRight.png");  
+        this.load.image("collectible", "assets/CoreMap.png");      
     }
 
     create(){
@@ -132,12 +133,16 @@ class Play extends Phaser.Scene {
             if(obstacle.y + obstacle.displayHeight < 0){
                 obstacle.destroy();
                 this.obstacles.delete(obstacle);                
-            } else if(!obstacle.collected && obstacle.y < (this.player.y - this.player.displayHeight)){
-                obstacle.collected = true;
+            } else if(!obstacle.passed && obstacle.y < (this.player.y - this.player.displayHeight)){
+                obstacle.passed = true;
                 score += Math.round(pointsPerObstacle * (Math.log10(this.fallSpeed) / Math.log10(initialFallSpeed)));
             }
             if(this.checkCollision(this.player, obstacle)){
-                this.doCollision();
+                if(obstacle.collectible){
+
+                } else { 
+                    this.doCollision();
+                }                
             }
         }       
         if(this.player.hp <= 0) {
@@ -156,20 +161,21 @@ class Play extends Phaser.Scene {
         let delta = (game.config.width - this.leftWall.displayWidth - this.rightWall.displayWidth) / 2;
         this.targetPos += Phaser.Math.Between(-delta, delta);
         this.targetPos = Phaser.Math.Clamp(this.targetPos, this.leftWall.displayWidth, game.config.width - this.rightWall.displayWidth);
-        let type = Phaser.Math.Between(0,1);        
+        let type = Phaser.Math.Between(0,1);
+        let collectible = Phaser.Math.Between(1, collectibleSpawnChance) === 1;
         switch(type){
             case 0: // left obstacle only
-                this.spawnSingleObstacle(false);
+                this.spawnSingleObstacle(false, collectible);
                 break;
             case 1: // right obstacle only
-                this.spawnSingleObstacle(true);
+                this.spawnSingleObstacle(true, collectible);
                 break;
             default: // paired (left and right) obstacles
                 break;
         }
     }
 
-    spawnSingleObstacle(right = false) {        
+    spawnSingleObstacle(right = false, collectible = false) {        
         let obstacleWidth = obstacleWidthScale * 1500; //this.textures.get("leftObstacle").width;        
         let obstaclePos;
         if(right) {
@@ -177,16 +183,23 @@ class Play extends Phaser.Scene {
             obstaclePos = Phaser.Math.Clamp(this.targetPos + obstacleWidth,                                         
                                          game.config.width - this.rightWall.displayWidth,   // at most so far left it's just barely touching the wall
                                          game.config.width + obstacleWidth - obstacleOffset);                // at most so far right it can't be seen
+            this.spawnCollectible(obstaclePos - obstacleWidth, game.config.width - this.rightWall.displayWidth);
         } else {
             // position the left edge such that the right edge is the player's width away from the target pos
             obstaclePos = Phaser.Math.Clamp(this.targetPos - obstacleWidth,
                                          -obstacleWidth + obstacleOffset,                   // at most so far left it can't be seen
                                          this.leftWall.displayWidth);                       // at most so far right it's just barely touching the wall
+            this.spawnCollectible(this.leftWall.displayWidth, obstaclePos + obstacleWidth);
         }
         let tex = (right ? "righ" : "lef") + "tObstacle";
         let temp = new Obstacle(this, obstaclePos, game.config.height, tex).setOrigin(right ? 1 : 0, 0).setScale(obstacleWidthScale, wallScale).setDepth(-1);
         this.obstacles.add(temp);
+    }
 
+    spawnCollectible(left, right){
+        console.log("spawnCollectible(" + left + ", " + right + ") = " + ((right - left) / 2));
+        let collectiblePos = Phaser.Math.Clamp(left + (right - left) / 2, this.leftWall.displayWidth + obstacleOffset, game.config.width - (this.rightWall.displayWidth + obstacleOffset));
+        this.obstacles.add(new Obstacle(this, collectiblePos, game.config.height, "collectible").setOrigin(0.5,0).setScale(wallScale));
     }
 
     checkCollision(player, obstacle) {
