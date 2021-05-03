@@ -8,7 +8,7 @@ class Play extends Phaser.Scene {
         //this.load.image("player", "assets/FallingMan.gif");
         this.load.image("leftWall", "assets/FallingFallingBordersLeft.png");
         this.load.image("rightWall", "assets/FallingFallingBordersRight.png");
-        this.load.image("leftObstacle", "assets/FallingFallingBordersLeft.png");
+        this.load.image("leftObstacle", "assets/ObstacleBalconyLeft.png");
         this.load.spritesheet("player", "assets/FallingManSpritesheet.png", { frameWidth: 875, frameHeight: 304, startFrame: 0, endFrame: 1 });
     }
 
@@ -23,7 +23,6 @@ class Play extends Phaser.Scene {
         this.player.setScale(playerScale);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        this.add.sprite(this, game.config.width / 2, game.config.height / 2, "leftObstacle").setOrigin(0,0);
 
         //this.anims.create({ key: "explode", frames: this.anims.generateFrameNumbers("explosion", { start: 0, end: 9, first: 0}), frameRate: 30 });
 
@@ -49,15 +48,10 @@ class Play extends Phaser.Scene {
         //this.zoom(1.001);
         if(((++this.counter) % 100) == 0){
             console.log("trying to spawn a new obstacle");
-            let temp = this.add.sprite(this, game.config.width / 2, game.config.height / 2, "leftObstacle").setOrigin(0,0);
-            this.obstacles.add(temp);
+            this.obstacles.add(new Obstacle(this, game.config.width / 2, game.config.height / 2, "leftObstacle").setOrigin(0,0));
         }
         for(let obstacle of this.obstacles){
-            obstacle.y -= fallSpeed;            
-            if(obstacle.y + obstacle.height < 0){
-                obstacle.destroy();
-            }
-            this.obstacles.delete(obstacle);
+            obstacle.update();
         }
     }
 
