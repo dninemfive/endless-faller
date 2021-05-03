@@ -25,7 +25,7 @@ let playerScale = 0.225,
     playerAcceleration = 0.5,
     playerDeceleration = 50,        // __divisor__ for player deceleration (higher values = less deceleration)
     playerMaxSpeed = 3,             // max player velocity
-    obstacleSpawnPeriod = 500,      // approximately how many update() calls between obstacle spawn. affected by randomness.
+    obstacleSpawnPeriod = 300,      // approximately how many update() calls between obstacle spawn. affected by randomness.
     playerStartPos = 0.666,         // vertical location of the player, as a proportion of screen height; also max player health
     obstacleDamage = 0.333,         // amount of damage the player takes from obstacles
     fallSpeedDamage = 5,            // how much the player slows down when hitting an obstacle. will never fall below the initial fall speed

@@ -13,6 +13,7 @@ class Play extends Phaser.Scene {
     }
 
     create(){
+        
         this.background = this.add.sprite(game.config.width / 2, 0,"background").setOrigin(0.5,0);
         this.background.setScale(game.config.width / this.background.width);
 
@@ -46,9 +47,17 @@ class Play extends Phaser.Scene {
         this.counter = 0;
         this.obstacles = new Set();
         this.fallSpeed = initialFallSpeed;
-
         this.zoom = 1.5;
-        this.setZoom(this.zoom);
+        
+        switch(state){
+            case STATES.GAME:
+                this.title.setVisible(false);
+                this.startText.setVisible(false);
+                break;
+            default:
+                this.setZoom(this.zoom);
+                break;
+        }
     }
 
     update(){
@@ -86,7 +95,7 @@ class Play extends Phaser.Scene {
         if(this.player.y < game.config.height * playerStartPos){
             this.player.y += playerMoveSpeed;
             this.setZoom(this.zoom);
-            this.title.alpha -= 10;
+            this.title.alpha -= 0.1;
         } else{
             state = STATES.GAME;
         }
