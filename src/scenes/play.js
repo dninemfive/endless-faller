@@ -5,43 +5,98 @@ class Play extends Phaser.Scene {
 
     preload(){
         this.load.image("background", "assets/PlanetSkyScapeSmaller.png");
-        //this.load.image("player", "assets/FallingMan.gif");
+        this.load.spritesheet("player", "assets/FallingManSpritesheet.png", { frameWidth: 875, frameHeight: 304, startFrame: 0, endFrame: 1 });
         this.load.image("leftWall", "assets/FallingFallingBordersLeft.png");
         this.load.image("rightWall", "assets/FallingFallingBordersRight.png");
         this.load.image("leftObstacle", "assets/ObstacleBalconyLeft.png");
-        this.load.image("rightObstacle", "assets/ObstacleBalconyRight.png");
-        this.load.spritesheet("player", "assets/FallingManSpritesheet.png", { frameWidth: 875, frameHeight: 304, startFrame: 0, endFrame: 1 });
+        this.load.image("rightObstacle", "assets/ObstacleBalconyRight.png");        
     }
 
     create(){
+        // basically an enum
+        this.STATES = {MAIN: 0, TRANSITION: 1, GAME: 2 };
+        this.state = this.STATES.MAIN;
+
         this.background = this.add.sprite(game.config.width / 2, 0,"background").setOrigin(0.5,0);
         this.background.setScale(game.config.width / this.background.width);
+
+        mainMenuConfig.fontSize = "50px";
+        this.title = this.add.text(game.config.width / 2, borderUISize + borderPadding, "H O R I Z O N   D O W N", mainMenuConfig).setOrigin(0.5);
+        mainMenuConfig.fontSize = "28px";
+        this.startText = this.add.text(game.config.width / 2, game.config.height - (borderUISize + borderPadding), "press SPACE to start", mainMenuConfig).setOrigin(0.5);
+
+        this.player = new Player(this, game.config.width / 2, -100, "player").setOrigin(0.5, 0.5);
+        this.player.setScale(playerScale);
+        this.anims.create({ key: "player", frames: this.anims.generateFrameNumbers("player", { start: 0, end: 1, first: 0}), frameRate: 12, repeat: -1 });
+        this.player.anims.play("player");
+
         this.leftWall = this.add.tileSprite(0, 0, 0, 0, "leftWall").setOrigin(0,0);
         this.leftWall.setScale(wallScale);
         this.rightWall = this.add.tileSprite(game.config.width, 0, 0, 0, "rightWall").setOrigin(1,0);
         this.rightWall.setScale(wallScale);
-        this.player = new Player(this, game.config.width / 2, game.config.height * playerStartPos, "player").setOrigin(0.5, 0.5);
-        this.player.setScale(playerScale);
+        
         this.fallSpeedDebug = this.add.text(game.config.width / 2, 0, "fall speed: " + this.fallSpeed, menuConfig).setOrigin(0.5, 0);
+
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-
-        this.anims.create({ key: "player", frames: this.anims.generateFrameNumbers("player", { start: 0, end: 1, first: 0}), frameRate: 12, repeat: -1 });
-        this.player.anims.play("player");
+        this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 
         //textConfig.fixedWidth = 100;
         //this.score = 0;        
         //this.scoreLabel = this.add.text(borderUISize + borderPadding, borderUISize + (borderPadding * 2), this.score, textConfig);
-
-        // timer
-        this.gameOver = false;
-        textConfig.fixedWidth = 0;
+        //textConfig.fixedWidth = 0;
+        
         this.counter = 0;
         this.obstacles = new Set();
         this.fallSpeed = initialFallSpeed;
+
+        this.zoom = 1.5;
+        this.setZoom(this.zoom);
     }
 
     update(){
+        switch(this.state){
+            case this.STATES.MAIN:
+                this.doMainTick();
+                break;
+            case this.STATES.TRANSITION:
+                this.doTransitionTick();
+                break;
+            case this.STATES.GAME:
+                this.doGameTick();
+                break;
+        }        
+    }
+
+    doMainTick(){
+        if(Phaser.Input.Keyboard.JustDown(this.keySPACE)) {
+            this.state = this.STATES.TRANSITION;
+            this.startText.setVisible(false);
+        }
+        if (Phaser.Input.Keyboard.JustDown(this.keyDOWN)){
+            this.scene.start("lore"); 
+        }
+    }
+
+    setZoom(amount){
+        this.background.setScale((game.config.width / this.background.width) * amount);
+        this.player.setScale(playerScale * amount);
+    }
+
+    doTransitionTick(){
+        let playerMoveSpeed = 5;
+        this.zoom -= (this.zoom - 1) / ((game.config.height * playerStartPos) / playerMoveSpeed);
+        if(this.player.y < game.config.height * playerStartPos){
+            this.player.y += playerMoveSpeed;
+            this.setZoom(this.zoom);
+            this.title.alpha -= 10;
+        } else{
+            this.state = this.STATES.GAME;
+        }
+    }
+
+    doGameTick(){
         this.fallSpeedDebug.text = "fall speed: " + this.fallSpeed;
         this.leftWall.tilePositionY += this.fallSpeed;
         this.rightWall.tilePositionY += this.fallSpeed;

@@ -2,7 +2,7 @@ let config = {
     type: Phaser.CANVAS,
     width: 1000,
     height: 750,
-    scene: [Menu, Play, Lose, Lore],
+    scene: [Play, Lose, Lore],
     autoCenter: Phaser.CENTER_HORIZONTALLY
 };
 let game = new Phaser.Game(config);
@@ -40,7 +40,7 @@ let textConfig = {
 }
 let mainMenuConfig = {
     fontFamily: "Century Gothic",
-    fontSize: "50px",
+    fontSize: "28px",
     backgroundColor: "#00000000", // transparent
     color: "#000000",
     align: "right",
