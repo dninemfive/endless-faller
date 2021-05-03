@@ -17,7 +17,9 @@ let playerScale = 0.15,
     wallScale = 0.2,
     startingFallSpeed = 10,
     fallSpeedIncrease = 1,          // how much the player's fall speed increases each time an obstacle spawns
-    playerMoveSpeedFactor = 8,      // max player velocity
+    playerAcceleration = 0.5,
+    playerDeceleration = 50,        // __divisor__ for player deceleration (higher values = less deceleration)
+    playerMaxSpeed = 3,             // max player velocity
     obstacleSpawnPeriod = 500,      // approximately how many update() calls between obstacle spawn. affected by randomness.
     playerStartPos = 0.666,         // vertical location of the player, as a proportion of screen height
     backgroundScaleFactor = 0.01;   // modifies the amount the background moves, for parallax purposes
