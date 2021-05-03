@@ -37,7 +37,7 @@ class Play extends Phaser.Scene {
         textConfig.fixedWidth = 0;
         this.counter = 0;
         this.obstacles = new Set();
-        this.fallSpeed = startingFallSpeed;
+        this.fallSpeed = initialFallSpeed;
     }
 
     update(){
@@ -68,6 +68,7 @@ class Play extends Phaser.Scene {
         }       
         if(this.player.hp <= 0) this.scene.start("lose"); 
         this.background.y -= this.fallSpeed * backgroundScaleFactor;
+        Phaser.Math.Clamp(this.fallSpeed, initialFallSpeed, maxFallSpeed);
     }
 
     checkCollision(player, obstacle) {
@@ -92,9 +93,6 @@ class Play extends Phaser.Scene {
         this.leftWall.tilePositionY += obstacleDamage * game.config.height * extraMoveAmt * 5;
         this.rightWall.tilePositionY += obstacleDamage * game.config.height * extraMoveAmt * 5;
         this.fallSpeed -= fallSpeedDamage;
-        if(this.fallSpeed < startingFallSpeed) {
-            this.fallSpeed = startingFallSpeed;
-        }
     }
 
     zoom(amount){

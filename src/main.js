@@ -15,8 +15,9 @@ let keyLEFT, keyRIGHT; // globals so that player.update() can access them
 // global settings
 let playerScale = 0.15,
     wallScale = 0.2,
-    startingFallSpeed = 10,         // minimum and initial fall speed
-    fallSpeedIncrease = 1.1,          // how much the player's fall speed increases each time an obstacle spawns, as a factor of their current speed
+    initialFallSpeed = 10,         // minimum and initial fall speed
+    fallSpeedIncrease = 1.2,          // how much the player's fall speed increases each time an obstacle spawns, as a factor of their current speed]
+    maxFallSpeed = 50,
     playerAcceleration = 0.5,
     playerDeceleration = 50,        // __divisor__ for player deceleration (higher values = less deceleration)
     playerMaxSpeed = 3,             // max player velocity
