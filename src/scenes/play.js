@@ -34,6 +34,9 @@ class Play extends Phaser.Scene {
         
         this.fallSpeedDebug = this.add.text(game.config.width / 2, 0, "fall speed: " + this.fallSpeed, menuConfig).setOrigin(0.5, 0);
 
+        this.blackout = this.add.rectangle(0, 0, game.config.width, game.config.height, 0x000000).setOrigin(0,0);
+        this.blackout.alpha = 0;
+
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -112,9 +115,9 @@ class Play extends Phaser.Scene {
             this.fallSpeed *= fallSpeedIncrease;
             let leftright = Phaser.Math.Between(0,1);
             if(!leftright){
-                this.obstacles.add(new Obstacle(this, Phaser.Math.Between(-100, this.leftWall.displayWidth), game.config.height, "leftObstacle").setOrigin(0,0).setScale(wallScale * 1.5, wallScale / 2));
+                this.obstacles.add(new Obstacle(this, Phaser.Math.Between(-100, this.leftWall.displayWidth), game.config.height, "leftObstacle").setOrigin(0,0).setScale(wallScale * 1.6, wallScale));
             } else {
-                this.obstacles.add(new Obstacle(this, game.config.width - Phaser.Math.Between(-100, this.rightWall.displayWidth), game.config.height, "rightObstacle").setOrigin(1,0).setScale(wallScale * 1.5, wallScale / 2));
+                this.obstacles.add(new Obstacle(this, game.config.width - Phaser.Math.Between(-100, this.rightWall.displayWidth), game.config.height, "rightObstacle").setOrigin(1,0).setScale(wallScale * 1.6, wallScale));
             }
         }
         for(let obstacle of this.obstacles){
@@ -133,6 +136,9 @@ class Play extends Phaser.Scene {
         }
         this.background.y -= this.fallSpeed * backgroundScaleFactor;
         this.fallSpeed = Phaser.Math.Clamp(this.fallSpeed, initialFallSpeed, maxFallSpeed);
+        if(this.blackout.alpha > 0){
+            this.blackout.alpha -= blackoutFadeout;
+        }
     }
 
     checkCollision(player, obstacle) {
@@ -152,10 +158,15 @@ class Play extends Phaser.Scene {
         let extraMoveAmt = 1.3; // to ensure the player doesn't infinitely clip into obstacles
         this.player.hp -= obstacleDamage;
         for(let obstacle of this.obstacles){
-            obstacle.y -= obstacleDamage * game.config.height * extraMoveAmt; 
+            if(obstacle.y > game.config.height * (1 - ((1 - playerStartPos) / 2))) {
+                obstacle.y -= obstacleDamage * game.config.height * extraMoveAmt; 
+            } else {
+                obstacle.y = -100;
+            }
         }
         this.leftWall.tilePositionY += obstacleDamage * game.config.height * extraMoveAmt * 5;
         this.rightWall.tilePositionY += obstacleDamage * game.config.height * extraMoveAmt * 5;
         this.fallSpeed -= fallSpeedDamage;
+        this.blackout.alpha = 1;
     }    
 }

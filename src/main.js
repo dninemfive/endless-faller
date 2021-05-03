@@ -30,7 +30,8 @@ let playerScale = 0.225,
     obstacleDamage = 0.333,         // amount of damage the player takes from obstacles
     fallSpeedDamage = 5,            // how much the player slows down when hitting an obstacle. will never fall below the initial fall speed
     playerHealthPerTick = 0.001,    // amount the player heals each tick
-    backgroundScaleFactor = 0.001;   // modifies the amount the background moves, for parallax purposes
+    backgroundScaleFactor = 0.001,   // modifies the amount the background moves, for parallax purposes
+    blackoutFadeout = 0.02;         // how much (as a proportion of 100%) the blackout frame fades per tick
 
 // if we make this a global we don't have to copy this to multiple contexts >.>
 let textConfig = {
