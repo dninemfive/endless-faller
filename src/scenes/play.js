@@ -121,12 +121,7 @@ class Play extends Phaser.Scene {
         if(this.obstacleCounter > obstacleSpawnPeriod){
             this.obstacleCounter = 0;
             this.fallSpeed *= fallSpeedIncrease;
-            let leftright = Phaser.Math.Between(0,1);
-            if(!leftright){
-                this.obstacles.add(new Obstacle(this, Phaser.Math.Between(-100, this.leftWall.displayWidth), game.config.height, "leftObstacle").setOrigin(0,0).setScale(wallScale * 1.6, wallScale));
-            } else {
-                this.obstacles.add(new Obstacle(this, game.config.width - Phaser.Math.Between(-100, this.rightWall.displayWidth), game.config.height, "rightObstacle").setOrigin(1,0).setScale(wallScale * 1.6, wallScale));
-            }
+            this.spawnObstacle();
         }
         for(let obstacle of this.obstacles){
             obstacle.y -= this.fallSpeed / 5; // todo: figure out why dividing by 5 syncs up with the wall
@@ -146,6 +141,26 @@ class Play extends Phaser.Scene {
         this.fallSpeed = Phaser.Math.Clamp(this.fallSpeed, initialFallSpeed, maxFallSpeed);
         if(this.blackout.alpha > 0){
             this.blackout.alpha -= blackoutFadeout;
+        }
+    }
+
+    spawnObstacle(){
+        let type = Phaser.Math.Between(0,2);
+        switch(type){
+            case 0: // add left obstacle
+                this.obstacles.add(new Obstacle(this, 
+                        Phaser.Math.Between(-100, this.leftWall.displayWidth), 
+                        game.config.height, 
+                        "leftObstacle").setOrigin(0,0).setScale(wallScale * 1.6, wallScale));
+                break;
+            case 1: // add right obstacle
+                this.obstacles.add(new Obstacle(this, 
+                    game.config.width - Phaser.Math.Between(-100, this.rightWall.displayWidth), 
+                    game.config.height, 
+                    "rightObstacle").setOrigin(1,0).setScale(wallScale * 1.6, wallScale));
+                break;
+            case 2: // add paired (left and right) obstacle
+                break;
         }
     }
 
