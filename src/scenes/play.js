@@ -24,7 +24,7 @@ class Play extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-        this.anims.create({ key: "explode", frames: this.anims.generateFrameNumbers("explosion", { start: 0, end: 9, first: 0}), frameRate: 30 });
+        //this.anims.create({ key: "explode", frames: this.anims.generateFrameNumbers("explosion", { start: 0, end: 9, first: 0}), frameRate: 30 });
 
         //textConfig.fixedWidth = 100;
         //this.score = 0;        
@@ -34,7 +34,7 @@ class Play extends Phaser.Scene {
         this.gameOver = false;
         textConfig.fixedWidth = 0;
         this.counter = 0;
-        this.obstacles = [];
+        this.obstacles = new Set();
     }
 
     update(){
@@ -46,7 +46,7 @@ class Play extends Phaser.Scene {
             this.player.update();
         }
         //this.zoom(1.001);
-        if(((++this.counter) % 1000) == 0){
+        if(((++this.counter) % 100) == 0){
             console.log("trying to spawn a new obstacle");
             this.obstacles.add(new Obstacle(this, game.config.width / 2, game.config.height / 2, "leftObstacle").setOrigin(0,0));
         }
