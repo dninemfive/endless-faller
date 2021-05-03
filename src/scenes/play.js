@@ -212,11 +212,11 @@ class Play extends Phaser.Scene {
     }
 
     checkCollision(player, obstacle) {
-        let pCoords = this.getBounds(player), oCoords = this.getBounds(obstacle);
-        if(this.inBounds({ x: pCoords.x1, y: pCoords.y1}, oCoords)) return true;
-        if(this.inBounds({ x: pCoords.x1, y: pCoords.y2}, oCoords)) return true;
-        if(this.inBounds({ x: pCoords.x2, y: pCoords.y1}, oCoords)) return true;
-        if(this.inBounds({ x: pCoords.x2, y: pCoords.y2}, oCoords)) return true;
+        let oCoords = this.getBounds(obstacle);
+        if(this.inBounds({ x: player.x, y: player.y }, oCoords)) return true;
+        //if(this.inBounds({ x: pCoords.x1, y: pCoords.y2}, oCoords)) return true;
+        //if(this.inBounds({ x: pCoords.x2, y: pCoords.y1}, oCoords)) return true;
+        //if(this.inBounds({ x: pCoords.x2, y: pCoords.y2}, oCoords)) return true;
         return false;
     }
 
@@ -233,6 +233,7 @@ class Play extends Phaser.Scene {
     // point: an object holding 2-dimensional coordinates
     // box: an object holding numbers representing the outer edges of a box, as returned by getBounds
     inBounds(point, box){
+        // console.log("inBounds({" + box.x1 + ", " + box.x2 + "}, {" + box.x1 + ", " + box.x2 + ", " + box.y1 + ", " + box.y2 + "})");
         return point.x >= box.x1 && point.x <= box.x2 && point.y >= box.y1 && point.y <= box.y2;
     }
 
