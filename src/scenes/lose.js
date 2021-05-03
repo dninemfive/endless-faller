@@ -28,10 +28,19 @@ class Lose extends Phaser.Scene {
         let alphaIncrease = 0.005;
         if(this.youredead.alpha < 1){
             this.youredead.alpha += alphaIncrease;
+            if (Phaser.Input.Keyboard.JustDown(this.keySPACE)){
+                this.youredead.alpha = 1;
+            }
         } else if(this.yourscore.alpha < 1){
             this.yourscore.alpha += alphaIncrease;
+            if (Phaser.Input.Keyboard.JustDown(this.keySPACE)){
+                this.yourscore.alpha = 1;
+            }
         } else if(this.highscore.alpha < 1){
             this.highscore.alpha += alphaIncrease;
+            if (Phaser.Input.Keyboard.JustDown(this.keySPACE)){
+                this.highscore.alpha = 1;
+            }
         } else {
             this.returntext.alpha = 1;
         }
