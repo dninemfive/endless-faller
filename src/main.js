@@ -26,7 +26,7 @@ let playerScale = 0.225,
     playerDeceleration = 50,        // __divisor__ for player deceleration (higher values = less deceleration)
     playerMaxSpeed = 3,             // max player velocity
     obstacleSpawnPeriod = 500,      // approximately how many update() calls between obstacle spawn. affected by randomness.
-    playerStartPos = 0.333,         // vertical location of the player, as a proportion of screen height; also max player health
+    playerStartPos = 0.4,         // vertical location of the player, as a proportion of screen height; also max player health
     obstacleDamage = 0.111,         // amount of damage the player takes from obstacles
     fallSpeedDamage = 2,            // how much the player's speed is divided when hitting an obstacle. will never fall below the initial fall speed
     playerHealthPerTick = 0.00005,  // amount the player heals each tick
@@ -58,7 +58,7 @@ let textConfigDebug = {
     fontSize: "28px",
     backgroundColor: "#00FF00",
     color: "#000000",
-    align: "right",
-    padding: { top: 5, bottom: 5 },
-    fixedWidth: 0
+    align: "left",
+    padding: { top: 5, bottom: 5, right: 10, left: 10 },
+    fixedWidth: 100
 }

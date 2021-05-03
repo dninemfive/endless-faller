@@ -32,8 +32,6 @@ class Play extends Phaser.Scene {
         this.leftWall.setScale(wallScale);
         this.rightWall = this.add.tileSprite(game.config.width, 0, 0, 0, "rightWall").setOrigin(1,0);
         this.rightWall.setScale(wallScale);
-        
-        this.fallSpeedDebug = this.add.text(game.config.width / 2, 0, "fall speed: " + this.fallSpeed, textConfigDebug).setOrigin(0.5, 0);
 
         this.blackout = this.add.rectangle(0, 0, game.config.width, game.config.height, 0x000000).setOrigin(0,0);
         this.blackout.alpha = 0;
@@ -43,10 +41,8 @@ class Play extends Phaser.Scene {
         this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 
-        //textConfig.fixedWidth = 100;
-        //this.score = 0;        
-        //this.scoreLabel = this.add.text(borderUISize + borderPadding, borderUISize + (borderPadding * 2), this.score, textConfig);
-        //textConfig.fixedWidth = 0;
+        this.score = 0;
+        this.scoreLabel = this.add.text(this.leftWall.displayWidth, 0, this.score, textConfigDebug);
         
         this.delayCounter = 0;
         this.obstacleCounter = 0;
@@ -111,7 +107,6 @@ class Play extends Phaser.Scene {
     }
 
     doGameTick(){
-        this.fallSpeedDebug.text = "fall speed: " + this.fallSpeed;
         this.leftWall.tilePositionY += this.fallSpeed;
         this.rightWall.tilePositionY += this.fallSpeed;
         this.player.update();
