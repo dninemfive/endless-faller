@@ -67,7 +67,6 @@ class Play extends Phaser.Scene {
                 return player.y >= obstacle.y && player.y <= obstacle.y + obstacle.displayHeight;
             }
         } else if(obstacle.originX === 1){ // note that any other origin value will break this
-            console.log("obstacle.x " + obstacle.x + " player.x " + player.x + " obstacle.left " + (obstacle.x - obstacle.displayWidth));
             if(player.x >= (obstacle.x - obstacle.displayWidth) && player.x <= obstacle.x){
                 return player.y >= obstacle.y && player.y <= obstacle.y + obstacle.displayHeight;
             }

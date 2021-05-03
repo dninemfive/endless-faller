@@ -29,6 +29,15 @@ let textConfig = {
     padding: { top: 5, bottom: 5 },
     fixedWidth: 0
 }
+let mainMenuConfig = {
+    fontFamily: "Century Gothic",
+    fontSize: "50px",
+    backgroundColor: "#00000000", // transparent
+    color: "#000000",
+    align: "right",
+    padding: { top: 5, bottom: 5 },
+    fixedWidth: 0
+}
 let menuConfig = {
     fontFamily: "Courier",
     fontSize: "28px",
