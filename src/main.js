@@ -13,14 +13,14 @@ let borderPadding = borderUISize / 3;
 let keyLEFT, keyRIGHT; // globals so that player.update() can access them
 
 // global settings
-let playerScale = 0.1,
+let playerScale = 0.15,
     wallScale = 0.2,
     startingFallSpeed = 10,
     fallSpeedIncrease = 1,          // how much the player's fall speed increases each time an obstacle spawns
-    playerMoveSpeedFactor = 5,      // base player move speed (left-right)
+    playerMoveSpeedFactor = 8,      // max player velocity
     obstacleSpawnPeriod = 500,      // approximately how many update() calls between obstacle spawn. affected by randomness.
-    playerStartPos = 0.3,           // vertical location of the player, as a proportion of screen height
-    backgroundScaleFactor = 0.9;    // modifies the amount the background moves, for parallax purposes
+    playerStartPos = 0.666,         // vertical location of the player, as a proportion of screen height
+    backgroundScaleFactor = 0.01;   // modifies the amount the background moves, for parallax purposes
 
 // if we make this a global we don't have to copy this to multiple contexts >.>
 let textConfig = {

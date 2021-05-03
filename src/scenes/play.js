@@ -64,6 +64,7 @@ class Play extends Phaser.Scene {
                 this.scene.start("lose");
             }
         }        
+        this.background.y -= this.fallSpeed * backgroundScaleFactor;
     }
 
     checkCollision(player, obstacle) {
