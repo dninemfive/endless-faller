@@ -47,8 +47,9 @@ class Play extends Phaser.Scene {
         this.rightWall.tilePositionY += this.fallSpeed;
         this.player.update();
         //this.zoom(1.001);
-        this.counter += Phaser.Math.Between(1, this.fallSpeed);
-        if((this.counter % obstacleSpawnPeriod) == 0){
+        this.counter += this.fallSpeed / 5;
+        if(this.counter > obstacleSpawnPeriod){
+            this.counter = 0;
             this.fallSpeed *= fallSpeedIncrease;
             let leftright = Phaser.Math.Between(0,1);
             if(!leftright){
