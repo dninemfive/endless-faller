@@ -52,6 +52,8 @@ class Play extends Phaser.Scene {
         this.obstacles = new Set();
         this.fallSpeed = initialFallSpeed;
         this.zoom = 1.5;
+
+        this.targetPos = game.config.width / 2; // obstacles will be placed in order to avoid this point
         
         switch(state){
             case STATES.GAME:
@@ -132,7 +134,7 @@ class Play extends Phaser.Scene {
                 this.obstacles.delete(obstacle);                
             } else if(!obstacle.collected && obstacle.y < (this.player.y - this.player.displayHeight)){
                 obstacle.collected = true;
-                score += Math.round(pointsPerObstacle * Math.log10(this.fallSpeed));
+                score += Math.round(pointsPerObstacle * (Math.log10(this.fallSpeed) / Math.log10(initialFallSpeed)));
             }
             if(this.checkCollision(this.player, obstacle)){
                 this.doCollision();
@@ -151,21 +153,34 @@ class Play extends Phaser.Scene {
     }
 
     spawnObstacle(){
+        let delta = (game.config.width - this.leftWall.displayWidth - this.rightWall.displayWidth) / 2;
+        this.targetPos += Phaser.Math.Between(-delta, delta);
         let type = Phaser.Math.Between(0,1);
+        let obstacleWidthScale = wallScale * 1.6;
+        console.log(obstacleWidthScale);
+        let obstacleWidth = obstacleWidthScale * this.textures.get("leftObstacle").width;
         switch(type){
-            case 0: // add left obstacle
+            case 0: // left obstacle only
                 this.obstacles.add(new Obstacle(this, 
-                        Phaser.Math.Between(-100, this.leftWall.displayWidth), 
+                        Phaser.Math.Clamp(
+                            // position the left edge such that the right edge is the player's width away from the target pos
+                            this.targetPos - (obstacleWidth + this.player.displayWidth),
+                            -obstacleWidth,                     // at most so far left it can't be seen
+                            this.leftWall.displayWidth),       // at most so far right it's just barely touching the wall
                         game.config.height, 
-                        "leftObstacle").setOrigin(0,0).setScale(wallScale * 1.6, wallScale).setDepth(-1));
+                        "leftObstacle").setOrigin(0,0).setScale(obstacleWidthScale, wallScale).setDepth(-1));
                 break;
-            case 1: // add right obstacle
-                this.obstacles.add(new Obstacle(this, 
-                    game.config.width - Phaser.Math.Between(-100, this.rightWall.displayWidth), 
-                    game.config.height, 
-                    "rightObstacle").setOrigin(1,0).setScale(wallScale * 1.6, wallScale).setDepth(-1));
+            case 1: // right obstacle only
+            this.obstacles.add(new Obstacle(this, 
+                Phaser.Math.Clamp(
+                    // position the right edge such that the left edge is the player's width away from the target pos
+                    this.targetPos - (obstacleWidth + this.player.displayWidth),
+                    game.config.width + obstacleWidth,                          // at most so far right it can't be seen
+                    game.config.width - this.rightWall.displayWidth),          // at most so far left it's just barely touching the wall
+                game.config.height, 
+                "leftObstacle").setOrigin(0,0).setScale(obstacleWidthScale, wallScale).setDepth(-1));
                 break;
-            default: // add paired (left and right) obstacle
+            default: // paired (left and right) obstacles
                 break;
         }
     }
