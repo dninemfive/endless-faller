@@ -40,6 +40,7 @@ class Play extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        this.keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 
         score = 0;
         this.scoreLabel = this.add.text(this.leftWall.displayWidth, 0, score, textConfigDebug);
@@ -67,6 +68,8 @@ class Play extends Phaser.Scene {
                 this.setZoom(this.zoom);
                 break;
         }
+
+        this.paused = false;
     }
 
     update(){
@@ -113,47 +116,53 @@ class Play extends Phaser.Scene {
     }
 
     doGameTick(){
-        this.scoreLabel.text = score;
-        this.leftWall.tilePositionY += this.fallSpeed;
-        this.rightWall.tilePositionY += this.fallSpeed;
-        this.player.update();
-        if((++this.delayCounter) <= obstacleDelay){
+        if(Phaser.Input.Keyboard.JustDown(this.keyP)) {
+            this.paused = !this.paused;
+        }
+        if(this.paused){
         } else {
-            this.obstacleCounter += this.fallSpeed / 5;
-            this.startText.alpha -= 0.1;
-            this.scoreLabel.alpha += 0.1;
-        }        
-        if(this.obstacleCounter > obstacleSpawnPeriod){
-            this.obstacleCounter = 0;
-            this.fallSpeed *= fallSpeedIncrease;
-            this.spawnObstacle();
-        }
-        for(let obstacle of this.obstacles){
-            obstacle.y -= this.fallSpeed / 5; // todo: figure out why dividing by 5 syncs up with the wall
-            if(obstacle.y + obstacle.displayHeight < 0){
-                obstacle.destroy();
-                this.obstacles.delete(obstacle);                
-            } else if(!obstacle.passed && obstacle.y < (this.player.y - this.player.displayHeight)){
-                obstacle.passed = true;
-                score += Math.round(pointsPerObstacle * (Math.log10(this.fallSpeed) / Math.log10(initialFallSpeed)));
+            this.scoreLabel.text = score;
+            this.leftWall.tilePositionY += this.fallSpeed;
+            this.rightWall.tilePositionY += this.fallSpeed;
+            this.player.update();
+            if((++this.delayCounter) <= obstacleDelay){
+            } else {
+                this.obstacleCounter += this.fallSpeed / 5;
+                this.startText.alpha -= 0.1;
+                this.scoreLabel.alpha += 0.1;
+            }        
+            if(this.obstacleCounter > obstacleSpawnPeriod){
+                this.obstacleCounter = 0;
+                this.fallSpeed *= fallSpeedIncrease;
+                this.spawnObstacle();
             }
-            if(this.checkCollision(this.player, obstacle)){
-                if(obstacle.collectible){
+            for(let obstacle of this.obstacles){
+                obstacle.y -= this.fallSpeed / 5; // todo: figure out why dividing by 5 syncs up with the wall
+                if(obstacle.y + obstacle.displayHeight < 0){
+                    obstacle.destroy();
+                    this.obstacles.delete(obstacle);                
+                } else if(!obstacle.passed && obstacle.y < (this.player.y - this.player.displayHeight)){
+                    obstacle.passed = true;
+                    score += Math.round(pointsPerObstacle * (Math.log10(this.fallSpeed) / Math.log10(initialFallSpeed)));
+                }
+                if(this.checkCollision(this.player, obstacle)){
+                    if(obstacle.collectible){
 
-                } else { 
-                    this.doCollision();
-                }                
+                    } else { 
+                        this.doCollision();
+                    }                
+                }
+            }       
+            if(this.player.hp <= 0) {
+                state = STATES.MAIN;
+                if(score > highScore) highScore = score;
+                this.scene.start("lose"); 
             }
-        }       
-        if(this.player.hp <= 0) {
-            state = STATES.MAIN;
-            if(score > highScore) highScore = score;
-            this.scene.start("lose"); 
-        }
-        this.background.y -= this.fallSpeed * backgroundScaleFactor;
-        this.fallSpeed = Phaser.Math.Clamp(this.fallSpeed, initialFallSpeed, maxFallSpeed);
-        if(this.blackout.alpha > 0){
-            this.blackout.alpha -= blackoutFadeout;
+            this.background.y -= this.fallSpeed * backgroundScaleFactor;
+            this.fallSpeed = Phaser.Math.Clamp(this.fallSpeed, initialFallSpeed, maxFallSpeed);
+            if(this.blackout.alpha > 0){
+                this.blackout.alpha -= blackoutFadeout;
+            }
         }
     }
 
@@ -183,13 +192,13 @@ class Play extends Phaser.Scene {
             obstaclePos = Phaser.Math.Clamp(this.targetPos + obstacleWidth,                                         
                                          game.config.width - this.rightWall.displayWidth,   // at most so far left it's just barely touching the wall
                                          game.config.width + obstacleWidth - obstacleOffset);                // at most so far right it can't be seen
-            this.spawnCollectible(obstaclePos - obstacleWidth, game.config.width - this.rightWall.displayWidth);
+            this.spawnCollectible(this.leftWall.displayWidth, obstaclePos - obstacleWidth);
         } else {
             // position the left edge such that the right edge is the player's width away from the target pos
             obstaclePos = Phaser.Math.Clamp(this.targetPos - obstacleWidth,
                                          -obstacleWidth + obstacleOffset,                   // at most so far left it can't be seen
                                          this.leftWall.displayWidth);                       // at most so far right it's just barely touching the wall
-            this.spawnCollectible(this.leftWall.displayWidth, obstaclePos + obstacleWidth);
+            this.spawnCollectible(obstaclePos + obstacleWidth, game.config.width - this.rightWall.displayWidth);
         }
         let tex = (right ? "righ" : "lef") + "tObstacle";
         let temp = new Obstacle(this, obstaclePos, game.config.height, tex).setOrigin(right ? 1 : 0, 0).setScale(obstacleWidthScale, wallScale).setDepth(-1);
