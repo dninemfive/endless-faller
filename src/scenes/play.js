@@ -146,8 +146,10 @@ class Play extends Phaser.Scene {
                     score += Math.round(pointsPerObstacle * (Math.log10(this.fallSpeed) / Math.log10(initialFallSpeed)));
                 }
                 if(this.checkCollision(this.player, obstacle)){
-                    if(obstacle.collectible){
-
+                    if(obstacle.collectible) {
+                        score += collectibleScore;
+                        obstacle.destroy();
+                        this.obstacles.delete(obstacle);
                     } else { 
                         this.doCollision();
                     }                
@@ -208,7 +210,7 @@ class Play extends Phaser.Scene {
     spawnCollectible(left, right){
         let margin = 55;
         let collectiblePos = Phaser.Math.Between(left + margin, right - margin);
-        this.obstacles.add(new Obstacle(this, collectiblePos, game.config.height, "collectible").setOrigin(0.5,0).setScale(wallScale));
+        this.obstacles.add(new Obstacle(this, collectiblePos, game.config.height, "collectible", undefined, true).setOrigin(0.5,0).setScale(wallScale));
     }
 
     checkCollision(player, obstacle) {

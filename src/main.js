@@ -43,7 +43,8 @@ let playerScale = 0.225,
                                     // The player also loses this much score (not multiplied by the log) when hitting an obstacle (min 0)
     obstacleWidthScale = wallScale * 1.6,
     obstacleOffset = 250,           // amount obstacles are guaranteed to stick out of the wall, so they don't disappear completely
-    collectibleSpawnChance = 1;   // each time an obstacle spawns there's a 1 in this chance to spawn a collectible at the same time
+    collectibleSpawnChance = 1,     // each time an obstacle spawns there's a 1 in this chance to spawn a collectible at the same time
+    collectibleScore = 1000;        // amount of score you get for collecting collectibles
 
 // if we make this a global we don't have to copy this to multiple contexts >.>
 let textConfigWhite = {
