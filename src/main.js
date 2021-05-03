@@ -19,6 +19,8 @@ let STATES = { MAIN: 0, TRANSITION: 1, GAME: 2 };
 // GAME is the old play scene, with no title text and all the game objects spawning
 // TRANSITION transitions from MAIN to GAME, fading out the title and moving the player in from the top
 let state = STATES.MAIN;
+let score = 0;
+let highScore = 0;
 
 // global settings
 let playerScale = 0.225,

@@ -41,8 +41,8 @@ class Play extends Phaser.Scene {
         this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 
-        this.score = 0;
-        this.scoreLabel = this.add.text(this.leftWall.displayWidth, 0, this.score, textConfigDebug);
+        score = 0;
+        this.scoreLabel = this.add.text(this.leftWall.displayWidth, 0, score, textConfigDebug);
         this.scoreLabel.alpha = 0;
         
         this.delayCounter = 0;
@@ -108,7 +108,7 @@ class Play extends Phaser.Scene {
     }
 
     doGameTick(){
-        this.scoreLabel.text = this.score;
+        this.scoreLabel.text = score;
         this.leftWall.tilePositionY += this.fallSpeed;
         this.rightWall.tilePositionY += this.fallSpeed;
         this.player.update();
@@ -130,7 +130,7 @@ class Play extends Phaser.Scene {
                 this.obstacles.delete(obstacle);                
             } else if(!obstacle.collected && obstacle.y < (this.player.y - this.player.displayHeight)){
                 obstacle.collected = true;
-                this.score += Math.round(pointsPerObstacle * Math.log10(this.fallSpeed));
+                score += Math.round(pointsPerObstacle * Math.log10(this.fallSpeed));
             }
             if(this.checkCollision(this.player, obstacle)){
                 this.doCollision();
@@ -194,7 +194,7 @@ class Play extends Phaser.Scene {
         this.rightWall.tilePositionY += obstacleDamage * game.config.height * extraMoveAmt * 5;
         this.fallSpeed /= fallSpeedDamage;
         this.blackout.alpha = 1;
-        this.score -= pointsPerObstacle;
-        if(this.score < 0) this.score = 0;        
+        score -= pointsPerObstacle;
+        if(this.score < 0) score = 0;        
     }    
 }
