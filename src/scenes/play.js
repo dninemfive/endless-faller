@@ -8,7 +8,7 @@ class Play extends Phaser.Scene {
         //this.load.image("player", "assets/FallingMan.gif");
         this.load.image("leftWall", "assets/FallingFallingBordersLeft.png");
         this.load.image("rightWall", "assets/FallingFallingBordersRight.png");
-        this.load.image("leftObstacle", "assets/ObstacleBalconyLeft.png");
+        this.load.image("leftObstacle", "assets/FallingFallingBordersLeft.png");
         this.load.spritesheet("player", "assets/FallingManSpritesheet.png", { frameWidth: 875, frameHeight: 304, startFrame: 0, endFrame: 1 });
     }
 
@@ -23,8 +23,9 @@ class Play extends Phaser.Scene {
         this.player.setScale(playerScale);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.add.sprite(this, game.config.width / 2, game.config.height / 2, "leftObstacle").setOrigin(0,0);
 
-        this.anims.create({ key: "explode", frames: this.anims.generateFrameNumbers("explosion", { start: 0, end: 9, first: 0}), frameRate: 30 });
+        //this.anims.create({ key: "explode", frames: this.anims.generateFrameNumbers("explosion", { start: 0, end: 9, first: 0}), frameRate: 30 });
 
         //textConfig.fixedWidth = 100;
         //this.score = 0;        
@@ -34,7 +35,7 @@ class Play extends Phaser.Scene {
         this.gameOver = false;
         textConfig.fixedWidth = 0;
         this.counter = 0;
-        this.obstacles = [];
+        this.obstacles = new Set();
     }
 
     update(){
@@ -46,12 +47,17 @@ class Play extends Phaser.Scene {
             this.player.update();
         }
         //this.zoom(1.001);
-        if(((++this.counter) % 1000) == 0){
+        if(((++this.counter) % 100) == 0){
             console.log("trying to spawn a new obstacle");
-            this.obstacles.add(new Obstacle(this, game.config.width / 2, game.config.height / 2, "leftObstacle").setOrigin(0,0));
+            let temp = this.add.sprite(this, game.config.width / 2, game.config.height / 2, "leftObstacle").setOrigin(0,0);
+            this.obstacles.add(temp);
         }
         for(let obstacle of this.obstacles){
-            obstacle.update();
+            obstacle.y -= fallSpeed;            
+            if(obstacle.y + obstacle.height < 0){
+                obstacle.destroy();
+            }
+            this.obstacles.delete(obstacle);
         }
     }
 
