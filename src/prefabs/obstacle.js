@@ -5,7 +5,7 @@ class Obstacle extends Phaser.GameObjects.Sprite{
     }
     
     update(){        
-        this.y -= fallSpeed;
+        this.y -= fallSpeed / 5; // todo: figure out why dividing by 5 syncs up with the wall
         // find obstacle in list and destroy it
         //
         if(this.y + this.height < 0){
