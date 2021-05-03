@@ -95,7 +95,7 @@ class Play extends Phaser.Scene {
         if(this.player.y < game.config.height * playerStartPos){
             this.player.y += playerMoveSpeed;
             this.setZoom(this.zoom);
-            this.title.alpha -= 0.1;
+            this.title.alpha -= 0.025;
         } else{
             state = STATES.GAME;
         }
