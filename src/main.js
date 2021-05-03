@@ -1,3 +1,17 @@
+/*
+    HORIZON DOWN
+    By: Graydon, Lucas, 
+    Completed on 3 May 2021
+
+    Creative tilt:
+        Technical:
+            We use a dynamic set to update the obstacles, allowing an unlimited number of obstacles onscreen without memory leaks as obstacles are deleted as soon as they
+            leave the screen (play.js l207, 142-3). Similarly, the collectibles in the game are simply obstacles with a different effect when collided with ("", l150-2).
+            Both the main menu and the play screen are in the same Scene class in order to make the animated transition between one and the other smoother, and a JS object
+            was used to simulate enums from other languages in order to control game state (main.js l29-34, play.js l75-85, &c). I'm proud of the relatively elegant way
+            these particular systems are handled, though the code could definitely be way more readable if refactored.
+
+*/
 let config = {
     type: Phaser.CANVAS,
     width: 1000,
