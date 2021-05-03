@@ -14,7 +14,7 @@ class Play extends Phaser.Scene {
 
     create(){
         // basically an enum
-        this.STATES = {MAIN: 0, TRANSITION: 1, GAME: 2 };
+        this.STATES = { MAIN: 0, TRANSITION: 1, GAME: 2 };
         this.state = this.STATES.MAIN;
 
         this.background = this.add.sprite(game.config.width / 2, 0,"background").setOrigin(0.5,0);
