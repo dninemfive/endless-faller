@@ -5,6 +5,7 @@ class Menu extends Phaser.Scene {
 
     preload(){
         this.load.image("background", "assets/PlanetSkyScapeSmaller.png");
+        this.load.spritesheet("player", "assets/FallingManSpritesheet.png", { frameWidth: 875, frameHeight: 304, startFrame: 0, endFrame: 1 });
     }
 
     create(){
@@ -13,27 +14,40 @@ class Menu extends Phaser.Scene {
         this.background.setScale(game.config.width / this.background.width);
         this.player = new Player(this, game.config.width / 2, -100, "player").setOrigin(0.5, 0.5);
         this.player.setScale(playerScale);
-        this.add.text(game.config.width / 2, borderUISize + borderPadding, "H O R I Z O N   D O W N", mainMenuConfig).setOrigin(0.5);
+        this.anims.create({ key: "player", frames: this.anims.generateFrameNumbers("player", { start: 0, end: 1, first: 0}), frameRate: 12, repeat: -1 });
+        this.player.anims.play("player");
+        this.title = this.add.text(game.config.width / 2, borderUISize + borderPadding, "H O R I Z O N   D O W N", mainMenuConfig).setOrigin(0.5);
         mainMenuConfig.fontSize = "28px";
-        this.add.text(game.config.width / 2, game.config.height - (borderUISize + borderPadding), "press SPACE to start", mainMenuConfig).setOrigin(0.5);
+        this.startText = this.add.text(game.config.width / 2, game.config.height - (borderUISize + borderPadding), "press SPACE to start", mainMenuConfig).setOrigin(0.5);
         // might want to make this any key eventually
         this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-        this.zoom(1.5);
-
+        this.ready = false;
+        this.setZoom(1.5);
     }
 
     update(){
-        if (Phaser.Input.Keyboard.JustDown(this.keySPACE)){
-            this.scene.start("play");
+        let playerMoveSpeed = 5;
+        if(this.ready){
+            if(this.player.y < game.config.height * playerStartPos){
+                this.player.y += playerMoveSpeed;
+                this.setZoom((game.config.height * playerStartPos) / playerMoveSpeed);
+            } else{
+                this.scene.start("play");
+            }
+        }
+        if(Phaser.Input.Keyboard.JustDown(this.keySPACE)) {
+            this.ready = true;
+            this.title.setVisible(false);
+            this.startText.setVisible(false);
         }
         if (Phaser.Input.Keyboard.JustDown(this.keyDOWN)){
             this.scene.start("lore"); 
         }
     }
 
-    zoom(amount){
-        this.background.setScale(this.background.scale * amount);
-        this.player.setScale(this.player.scale * amount);
+    setZoom(amount){
+        this.background.setScale((game.config.width / this.background.width) * amount);
+        this.player.setScale(playerScale * amount);
     }
 }

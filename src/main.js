@@ -13,7 +13,7 @@ let borderPadding = borderUISize / 3;
 let keyLEFT, keyRIGHT; // globals so that player.update() can access them
 
 // global settings
-let playerScale = 0.15,
+let playerScale = 0.225,
     wallScale = 0.2,
     initialFallSpeed = 10,         // minimum and initial fall speed
     fallSpeedIncrease = 1.2,          // how much the player's fall speed increases each time an obstacle spawns, as a factor of their current speed]
