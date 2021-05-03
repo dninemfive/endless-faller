@@ -46,7 +46,6 @@ class Play extends Phaser.Scene {
         this.counter += Phaser.Math.Between(1, fallSpeed);
         if((this.counter % 500) == 0){
             fallSpeed += 0.1;
-            console.log("trying to spawn a new obstacle");
             let leftright = Phaser.Math.Between(0,1);
             if(!leftright){
                 this.obstacles.add(new Obstacle(this, Phaser.Math.Between(-100, this.leftWall.displayWidth), game.config.height, "leftObstacle").setOrigin(0,0).setScale(wallScale * 1.5, wallScale / 2));
@@ -64,11 +63,12 @@ class Play extends Phaser.Scene {
 
     checkCollision(player, obstacle) {
         if(obstacle.originX === 0){
-            if(player.x >= obstacle.x && player.x <= obstacle.x + obstacle.displayWidth){
+            if(player.x >= obstacle.x && player.x <= (obstacle.x + obstacle.displayWidth)){
                 return player.y >= obstacle.y && player.y <= obstacle.y + obstacle.displayHeight;
             }
-        } else if(obstacle.originY === 1){ // note that any other origin value will break this
-            if(player.x >= obstacle.x - obstacle.displayWidth && player.x <= obstacle.x){
+        } else if(obstacle.originX === 1){ // note that any other origin value will break this
+            console.log("obstacle.x " + obstacle.x + " player.x " + player.x + " obstacle.left " + (obstacle.x - obstacle.displayWidth));
+            if(player.x >= (obstacle.x - obstacle.displayWidth) && player.x <= obstacle.x){
                 return player.y >= obstacle.y && player.y <= obstacle.y + obstacle.displayHeight;
             }
         }
