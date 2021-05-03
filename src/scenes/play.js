@@ -36,16 +36,17 @@ class Play extends Phaser.Scene {
         textConfig.fixedWidth = 0;
         this.counter = 0;
         this.obstacles = new Set();
+        this.fallSpeed = startingFallSpeed;
     }
 
     update(){
-        this.leftWall.tilePositionY += startingFallSpeed;
-        this.rightWall.tilePositionY += startingFallSpeed;
+        this.leftWall.tilePositionY += this.fallSpeed;
+        this.rightWall.tilePositionY += this.fallSpeed;
         this.player.update();
         //this.zoom(1.001);
-        this.counter += Phaser.Math.Between(1, startingFallSpeed);
+        this.counter += Phaser.Math.Between(1, this.fallSpeed);
         if((this.counter % obstacleSpawnPeriod) == 0){
-            startingFallSpeed += fallSpeedIncrease;
+            this.fallSpeed += fallSpeedIncrease;
             let leftright = Phaser.Math.Between(0,1);
             if(!leftright){
                 this.obstacles.add(new Obstacle(this, Phaser.Math.Between(-100, this.leftWall.displayWidth), game.config.height, "leftObstacle").setOrigin(0,0).setScale(wallScale * 1.5, wallScale / 2));
@@ -54,7 +55,11 @@ class Play extends Phaser.Scene {
             }
         }
         for(let obstacle of this.obstacles){
-            obstacle.update();
+            obstacle.y -= this.fallSpeed / 5; // todo: figure out why dividing by 5 syncs up with the wall
+            if(obstacle.y + obstacle.displayHeight < 0){
+                obstacle.destroy();
+                this.obstacles.delete(obstacle);
+            }            
             if(this.checkCollision(this.player, obstacle)){
                 this.scene.start("lose");
             }
