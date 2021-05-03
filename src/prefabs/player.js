@@ -20,5 +20,8 @@ class Player extends Phaser.GameObjects.Sprite{
         let newX = Phaser.Math.Clamp(this.x + this.velocity, leftWall.displayWidth + this.displayWidth / 2, game.config.width - rightWall.displayWidth - this.displayWidth / 2);
         this.x = newX;
         this.y = this.hp * game.config.height;
+        if(this.hp < playerStartPos){
+            this.hp += playerHealthPerTick;
+        }
     }
 }

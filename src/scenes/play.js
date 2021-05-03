@@ -22,6 +22,7 @@ class Play extends Phaser.Scene {
         this.rightWall.setScale(wallScale);
         this.player = new Player(this, game.config.width / 2, game.config.height * playerStartPos, "player").setOrigin(0.5, 0.5);
         this.player.setScale(playerScale);
+        this.fallSpeedDebug = this.add.text(game.config.width / 2, 0, "fall speed: " + this.fallSpeed, menuConfig).setOrigin(0.5, 0);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
@@ -40,13 +41,14 @@ class Play extends Phaser.Scene {
     }
 
     update(){
+        this.fallSpeedDebug.text = "fall speed: " + this.fallSpeed;
         this.leftWall.tilePositionY += this.fallSpeed;
         this.rightWall.tilePositionY += this.fallSpeed;
         this.player.update();
         //this.zoom(1.001);
         this.counter += Phaser.Math.Between(1, this.fallSpeed);
         if((this.counter % obstacleSpawnPeriod) == 0){
-            this.fallSpeed += fallSpeedIncrease;
+            this.fallSpeed *= fallSpeedIncrease;
             let leftright = Phaser.Math.Between(0,1);
             if(!leftright){
                 this.obstacles.add(new Obstacle(this, Phaser.Math.Between(-100, this.leftWall.displayWidth), game.config.height, "leftObstacle").setOrigin(0,0).setScale(wallScale * 1.5, wallScale / 2));
@@ -61,9 +63,10 @@ class Play extends Phaser.Scene {
                 this.obstacles.delete(obstacle);
             }            
             if(this.checkCollision(this.player, obstacle)){
-                this.scene.start("lose");
+                this.doCollision();
             }
-        }        
+        }       
+        if(this.player.hp <= 0) this.scene.start("lose"); 
         this.background.y -= this.fallSpeed * backgroundScaleFactor;
     }
 
@@ -78,6 +81,20 @@ class Play extends Phaser.Scene {
             }
         }
         return false;
+    }
+
+    doCollision(){
+        let extraMoveAmt = 1.3; // to ensure the player doesn't infinitely clip into obstacles
+        this.player.hp -= obstacleDamage;
+        for(let obstacle of this.obstacles){
+            obstacle.y -= obstacleDamage * game.config.height * extraMoveAmt; 
+        }
+        this.leftWall.tilePositionY += obstacleDamage * game.config.height * extraMoveAmt * 5;
+        this.rightWall.tilePositionY += obstacleDamage * game.config.height * extraMoveAmt * 5;
+        this.fallSpeed -= fallSpeedDamage;
+        if(this.fallSpeed < startingFallSpeed) {
+            this.fallSpeed = startingFallSpeed;
+        }
     }
 
     zoom(amount){
