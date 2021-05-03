@@ -33,8 +33,7 @@ class Play extends Phaser.Scene {
         this.rightWall = this.add.tileSprite(game.config.width, 0, 0, 0, "rightWall").setOrigin(1,0);
         this.rightWall.setScale(wallScale);
 
-        this.blackout = this.add.rectangle(0, 0, game.config.width, game.config.height, 0x000000).setOrigin(0,0);
-        this.blackout.alpha = 0;
+        
 
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
@@ -44,6 +43,9 @@ class Play extends Phaser.Scene {
         score = 0;
         this.scoreLabel = this.add.text(this.leftWall.displayWidth, 0, score, textConfigDebug);
         this.scoreLabel.alpha = 0;
+
+        this.blackout = this.add.rectangle(0, 0, game.config.width, game.config.height, 0x000000).setOrigin(0,0);
+        this.blackout.alpha = 0;
         
         this.delayCounter = 0;
         this.obstacleCounter = 0;
@@ -196,6 +198,6 @@ class Play extends Phaser.Scene {
         this.fallSpeed /= fallSpeedDamage;
         this.blackout.alpha = 1;
         score -= pointsPerObstacle;
-        if(this.score < 0) score = 0;        
+        if(score < 0) score = 0;        
     }    
 }
