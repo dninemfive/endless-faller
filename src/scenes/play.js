@@ -174,21 +174,17 @@ class Play extends Phaser.Scene {
         let obstaclePos;
         if(right) {
             // position the right edge such that the left edge is the player's width away from the target pos
-            obstaclePos = Phaser.Math.Clamp(this.targetPos,
-                                         game.config.width + obstacleWidth,                 // at most so far left it can't be seen
-                                         game.config.width - this.rightWall.displayWidth);  // at most so far right it's just barely touching the wall
+            obstaclePos = Phaser.Math.Clamp(this.targetPos + obstacleWidth,
+                                         game.config.width + obstacleWidth,                 // at most so far right it can't be seen
+                                         game.config.width - this.rightWall.displayWidth);  // at most so far left it's just barely touching the wall
         } else {
             // position the left edge such that the right edge is the player's width away from the target pos
-            obstaclePos = Phaser.Math.Clamp(this.targetPos,
+            obstaclePos = Phaser.Math.Clamp(this.targetPos - obstacleWidth,
                                          -obstacleWidth,                                    // at most so far left it can't be seen
                                          this.leftWall.displayWidth);                       // at most so far right it's just barely touching the wall
         }
-        console.log("right: " + right + "; targetPos: " + this.targetPos + "; obstaclePos: " + obstaclePos);
         let tex = (right ? "righ" : "lef") + "tObstacle";
         this.obstacles.add(new Obstacle(this, obstaclePos, game.config.height, tex).setOrigin(right ? 1 : 0, 0).setScale(obstacleWidthScale, wallScale).setDepth(-1));
-        for(let obs of this.obstacles) {
-            console.log("meme: " + obs.originX);
-        }
     }
 
     checkCollision(player, obstacle) {
