@@ -108,6 +108,7 @@ class Play extends Phaser.Scene {
     }
 
     doGameTick(){
+        this.scoreLabel.text = this.score;
         this.leftWall.tilePositionY += this.fallSpeed;
         this.rightWall.tilePositionY += this.fallSpeed;
         this.player.update();
@@ -130,7 +131,6 @@ class Play extends Phaser.Scene {
             } else if(!obstacle.collected && obstacle.y < (this.player.y - this.player.displayHeight)){
                 obstacle.collected = true;
                 this.score += Math.round(pointsPerObstacle * Math.log10(this.fallSpeed));
-                this.scoreLabel.text = this.score;
             }
             if(this.checkCollision(this.player, obstacle)){
                 this.doCollision();
@@ -194,5 +194,7 @@ class Play extends Phaser.Scene {
         this.rightWall.tilePositionY += obstacleDamage * game.config.height * extraMoveAmt * 5;
         this.fallSpeed /= fallSpeedDamage;
         this.blackout.alpha = 1;
+        this.score -= pointsPerObstacle;
+        if(this.score < 0) this.score = 0;        
     }    
 }
