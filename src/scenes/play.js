@@ -197,7 +197,7 @@ class Play extends Phaser.Scene {
     }
 
     spawnCollectible(left, right){
-        console.log("spawnCollectible(" + left + ", " + right + ") = " + ((right - left) / 2));
+        console.log("spawnCollectible(" + left + ", " + right + ") = " + (left + ((right - left) / 2)));
         let collectiblePos = Phaser.Math.Clamp(left + (right - left) / 2, this.leftWall.displayWidth + obstacleOffset, game.config.width - (this.rightWall.displayWidth + obstacleOffset));
         this.obstacles.add(new Obstacle(this, collectiblePos, game.config.height, "collectible").setOrigin(0.5,0).setScale(wallScale));
     }
