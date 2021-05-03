@@ -39,8 +39,9 @@ let playerScale = 0.225,
     backgroundScaleFactor = 0.0001, // modifies the amount the background moves, for parallax purposes
     blackoutFadeout = 0.02,         // how much (as a proportion of 100%) the blackout frame fades per tick
     obstacleDelay = 300,            // how long, in ticks, before the obstacle counter begins
-    pointsPerObstacle = 100;        // how many points you get per obstacle. Multiplied by the log of the player's current speed.
+    pointsPerObstacle = 100,        // how many points you get per obstacle. Multiplied by the log of the player's current speed.
                                     // The player also loses this much score (not multiplied by the log) when hitting an obstacle (min 0)
+    obstacleWidthScale = wallScale * 1.6;
 
 // if we make this a global we don't have to copy this to multiple contexts >.>
 let textConfigWhite = {
