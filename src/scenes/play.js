@@ -212,7 +212,7 @@ class Play extends Phaser.Scene {
     }
 
     checkCollision(player, obstacle) {
-        let pCoords = getBounds(player), oCoords = getBounds(obstacle);
+        let pCoords = this.getBounds(player), oCoords = this.getBounds(obstacle);
         if(this.inBounds({ x: pCoords.x1, y: pCoords.y1}, oCoords)) return true;
         if(this.inBounds({ x: pCoords.x1, y: pCoords.y2}, oCoords)) return true;
         if(this.inBounds({ x: pCoords.x2, y: pCoords.y1}, oCoords)) return true;
@@ -226,7 +226,7 @@ class Play extends Phaser.Scene {
             x1: sprite.x - (sprite.originX * sprite.displayWidth),
             x2: sprite.x + ((1 - sprite.originX) * sprite.displayWidth),
             y1: sprite.y - (sprite.originY * sprite.displayHeight),
-            y2: sprite.y + ((1 - sprite.originY) * sprite.displayHeight);
+            y2: sprite.y + ((1 - sprite.originY) * sprite.displayHeight)
         };
     }
     
