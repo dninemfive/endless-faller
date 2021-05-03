@@ -39,13 +39,13 @@ class Play extends Phaser.Scene {
     }
 
     update(){
-        this.leftWall.tilePositionY += fallSpeed;
-        this.rightWall.tilePositionY += fallSpeed;
+        this.leftWall.tilePositionY += startingFallSpeed;
+        this.rightWall.tilePositionY += startingFallSpeed;
         this.player.update();
         //this.zoom(1.001);
-        this.counter += Phaser.Math.Between(1, fallSpeed);
-        if((this.counter % 500) == 0){
-            fallSpeed += 0.1;
+        this.counter += Phaser.Math.Between(1, startingFallSpeed);
+        if((this.counter % obstacleSpawnPeriod) == 0){
+            startingFallSpeed += fallSpeedIncrease;
             let leftright = Phaser.Math.Between(0,1);
             if(!leftright){
                 this.obstacles.add(new Obstacle(this, Phaser.Math.Between(-100, this.leftWall.displayWidth), game.config.height, "leftObstacle").setOrigin(0,0).setScale(wallScale * 1.5, wallScale / 2));
