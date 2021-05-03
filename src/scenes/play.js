@@ -17,10 +17,10 @@ class Play extends Phaser.Scene {
         this.background = this.add.sprite(game.config.width / 2, 0,"background").setOrigin(0.5,0).setDepth(-2);
         this.background.setScale(game.config.width / this.background.width);
 
-        mainMenuConfig.fontSize = "50px";
-        this.title = this.add.text(game.config.width / 2, borderUISize + borderPadding, "H O R I Z O N   D O W N", mainMenuConfig).setOrigin(0.5);
-        mainMenuConfig.fontSize = "28px";
-        this.startText = this.add.text(game.config.width / 2, game.config.height - (borderUISize + borderPadding), "press SPACE to start", mainMenuConfig).setOrigin(0.5);
+        textConfigBlack.fontSize = "50px";
+        this.title = this.add.text(game.config.width / 2, borderUISize + borderPadding, "H O R I Z O N   D O W N", textConfigBlack).setOrigin(0.5);
+        textConfigBlack.fontSize = "28px";
+        this.startText = this.add.text(game.config.width / 2, game.config.height - (borderUISize + borderPadding), "press SPACE to start", textConfigBlack).setOrigin(0.5);
         this.startText.alpha = 1;
 
         this.player = new Player(this, game.config.width / 2, -100, "player").setOrigin(0.5, 0.5);
@@ -33,7 +33,7 @@ class Play extends Phaser.Scene {
         this.rightWall = this.add.tileSprite(game.config.width, 0, 0, 0, "rightWall").setOrigin(1,0);
         this.rightWall.setScale(wallScale);
         
-        this.fallSpeedDebug = this.add.text(game.config.width / 2, 0, "fall speed: " + this.fallSpeed, menuConfig).setOrigin(0.5, 0);
+        this.fallSpeedDebug = this.add.text(game.config.width / 2, 0, "fall speed: " + this.fallSpeed, textConfigDebug).setOrigin(0.5, 0);
 
         this.blackout = this.add.rectangle(0, 0, game.config.width, game.config.height, 0x000000).setOrigin(0,0);
         this.blackout.alpha = 0;

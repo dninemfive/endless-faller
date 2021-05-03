@@ -20,7 +20,7 @@ let state = STATES.MAIN;
 let playerScale = 0.225,
     wallScale = 0.2,
     initialFallSpeed = 10,         // minimum and initial fall speed
-    fallSpeedIncrease = 1.2,          // how much the player's fall speed increases each time an obstacle spawns, as a factor of their current speed]
+    fallSpeedIncrease = 1.1,       // how much the player's fall speed increases each time an obstacle spawns, as a factor of their current speed
     maxFallSpeed = 50,
     playerAcceleration = 0.5,
     playerDeceleration = 50,        // __divisor__ for player deceleration (higher values = less deceleration)
@@ -29,22 +29,22 @@ let playerScale = 0.225,
     playerStartPos = 0.333,         // vertical location of the player, as a proportion of screen height; also max player health
     obstacleDamage = 0.111,         // amount of damage the player takes from obstacles
     fallSpeedDamage = 2,            // how much the player's speed is divided when hitting an obstacle. will never fall below the initial fall speed
-    playerHealthPerTick = 0.00001,    // amount the player heals each tick
-    backgroundScaleFactor = 0.0001,   // modifies the amount the background moves, for parallax purposes
+    playerHealthPerTick = 0.00005,  // amount the player heals each tick
+    backgroundScaleFactor = 0.0001, // modifies the amount the background moves, for parallax purposes
     blackoutFadeout = 0.02,         // how much (as a proportion of 100%) the blackout frame fades per tick
-    obstacleDelay = 1000;           // how long, in ticks, before the obstacle counter begins
+    obstacleDelay = 300;            // how long, in ticks, before the obstacle counter begins
 
 // if we make this a global we don't have to copy this to multiple contexts >.>
-let textConfig = {
+let textConfigWhite = {
     fontFamily: "Courier",
     fontSize: "28px",
-    backgroundColor: "#F3B141",
-    color: "#843605",
+    backgroundColor: "#00000000",
+    color: "#FFFFFF",
     align: "right",
     padding: { top: 5, bottom: 5 },
     fixedWidth: 0
 }
-let mainMenuConfig = {
+let textConfigBlack = {
     fontFamily: "Century Gothic",
     fontSize: "28px",
     backgroundColor: "#00000000", // transparent
@@ -53,7 +53,7 @@ let mainMenuConfig = {
     padding: { top: 5, bottom: 5 },
     fixedWidth: 0
 }
-let menuConfig = {
+let textConfigDebug = {
     fontFamily: "Courier",
     fontSize: "28px",
     backgroundColor: "#00FF00",

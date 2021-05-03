@@ -4,9 +4,6 @@ class Lore extends Phaser.Scene {
     }
 
     preload(){
-        //this.load.audio('sfx_select', './assets/blip_select12.wav');
-        //this.load.audio('sfx_explosion', './assets/explosion38.wav');
-        //this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
     }
 
     create(){
@@ -22,10 +19,10 @@ class Lore extends Phaser.Scene {
               bottom: 1,
             },
             fixedWidth: 0
-          }
-
-        console.log("we're in lore");
-        this.add.text(game.config.width / 2, borderUISize + borderPadding, " HORIZON DOWN ", textConfig).setOrigin(0.5);
+        }
+        textConfigWhite.fontSize = "50px";
+        this.add.text(game.config.width / 2, borderUISize + borderPadding, " H O R I Z O N   D O W N ", textConfigWhite).setOrigin(0.5);
+        textConfigWhite.fontSize = "28px";
         this.add.text(game.config.width / 2, borderUISize*2 + borderPadding, " Living beings of Planet Sky have spent their ", loreConfig).setOrigin(0.5);
         this.add.text(game.config.width / 2, borderUISize*3 + borderPadding, " peaceful lives on roof tops of buildings so ", loreConfig).setOrigin(0.5);
         this.add.text(game.config.width / 2, borderUISize*4 + borderPadding, " bizarrely high, Earthlings couldn’t quite comprehend them. ", loreConfig).setOrigin(0.5);
