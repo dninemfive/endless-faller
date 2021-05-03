@@ -49,9 +49,9 @@ class Play extends Phaser.Scene {
             console.log("trying to spawn a new obstacle");
             let leftright = Phaser.Math.Between(0,1);
             if(!leftright){
-                this.obstacles.add(new Obstacle(this, 0, game.config.height, "leftObstacle").setOrigin(0,0).setScale(wallScale));
+                this.obstacles.add(new Obstacle(this, Phaser.Math.Between(-100,250), game.config.height, "leftObstacle").setOrigin(0,0).setScale(wallScale));
             } else {
-                this.obstacles.add(new Obstacle(this, game.config.width, game.config.height, "rightObstacle").setOrigin(1,0).setScale(wallScale));
+                this.obstacles.add(new Obstacle(this, game.config.width - Phaser.Math.Between(-100,250), game.config.height, "rightObstacle").setOrigin(1,0).setScale(wallScale));
             }
         }
         for(let obstacle of this.obstacles){
