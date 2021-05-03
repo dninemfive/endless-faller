@@ -2,7 +2,7 @@ let config = {
     type: Phaser.CANVAS,
     width: 960,
     height: 540,
-    scene: [Menu, Play, Lose],
+    scene: [Menu, Play, Lose, Lore],
     autoCenter: Phaser.CENTER_HORIZONTALLY
 };
 let game = new Phaser.Game(config);
