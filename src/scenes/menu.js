@@ -23,15 +23,17 @@ class Menu extends Phaser.Scene {
         this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.ready = false;
-        this.setZoom(1.5);
+        this.zoom = 1.5;
+        this.setZoom(this.zoom);
     }
 
     update(){
         let playerMoveSpeed = 5;
+        this.zoom -= (this.zoom - 1) / ((game.config.height * playerStartPos) / playerMoveSpeed);
         if(this.ready){
             if(this.player.y < game.config.height * playerStartPos){
                 this.player.y += playerMoveSpeed;
-                this.setZoom((game.config.height * playerStartPos) / playerMoveSpeed);
+                this.setZoom(this.zoom);
             } else{
                 this.scene.start("play");
             }
