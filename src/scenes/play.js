@@ -47,12 +47,12 @@ class Play extends Phaser.Scene {
         if((this.counter % 500) == 0){
             fallSpeed += 0.1;
             console.log("trying to spawn a new obstacle");
-            //let leftright = Phaser.Math.Between(0,1);
-            //if(!leftright){
-                this.obstacles.add(new Obstacle(this, Phaser.Math.Between(0,game.config.width), game.config.height, "leftObstacle").setOrigin(0,0).setScale(wallScale));
-            //} else {
-            //    this.obstacles.add(new Obstacle(this, game.config.width - Phaser.Math.Between(-100,250), game.config.height, "rightObstacle").setOrigin(1,0).setScale(wallScale));
-            //}
+            let leftright = Phaser.Math.Between(0,1);
+            if(!leftright){
+                this.obstacles.add(new Obstacle(this, Phaser.Math.Between(-100, this.leftWall.displayWidth), game.config.height, "leftObstacle").setOrigin(0,0).setScale(wallScale * 1.5, wallScale / 2));
+            } else {
+                this.obstacles.add(new Obstacle(this, game.config.width - Phaser.Math.Between(-100, this.rightWall.displayWidth), game.config.height, "rightObstacle").setOrigin(1,0).setScale(wallScale * 1.5, wallScale / 2));
+            }
         }
         for(let obstacle of this.obstacles){
             obstacle.update();
@@ -63,15 +63,16 @@ class Play extends Phaser.Scene {
     }
 
     checkCollision(player, obstacle) {
-        // simple AABB checking
-        if (player.x < obstacle.x + obstacle.displayWidth && 
-            player.x + player.displayWidth > obstacle.x && 
-            player.y < obstacle.y + obstacle.displayHeight &&
-            player.displayHeight + player.y > obstacle.y) {
-                return true;
-        } else {
-            return false;
+        if(obstacle.originX === 0){
+            if(player.x >= obstacle.x && player.x <= obstacle.x + obstacle.displayWidth){
+                return player.y >= obstacle.y && player.y <= obstacle.y + obstacle.displayHeight;
+            }
+        } else if(obstacle.originY === 1){ // note that any other origin value will break this
+            if(player.x >= obstacle.x - obstacle.displayWidth && player.x <= obstacle.x){
+                return player.y >= obstacle.y && player.y <= obstacle.y + obstacle.displayHeight;
+            }
         }
+        return false;
     }
 
     zoom(amount){
