@@ -126,8 +126,12 @@ class Play extends Phaser.Scene {
             obstacle.y -= this.fallSpeed / 5; // todo: figure out why dividing by 5 syncs up with the wall
             if(obstacle.y + obstacle.displayHeight < 0){
                 obstacle.destroy();
-                this.obstacles.delete(obstacle);
-            }            
+                this.obstacles.delete(obstacle);                
+            } else if(!obstacle.collected && obstacle.y < (this.player.y - this.player.displayHeight)){
+                obstacle.collected = true;
+                this.score += Math.round(pointsPerObstacle * Math.log10(this.fallSpeed));
+                this.scoreLabel.text = this.score;
+            }
             if(this.checkCollision(this.player, obstacle)){
                 this.doCollision();
             }
@@ -144,7 +148,7 @@ class Play extends Phaser.Scene {
     }
 
     spawnObstacle(){
-        let type = Phaser.Math.Between(0,2);
+        let type = Phaser.Math.Between(0,1);
         switch(type){
             case 0: // add left obstacle
                 this.obstacles.add(new Obstacle(this, 
@@ -158,7 +162,7 @@ class Play extends Phaser.Scene {
                     game.config.height, 
                     "rightObstacle").setOrigin(1,0).setScale(wallScale * 1.6, wallScale).setDepth(-1));
                 break;
-            case 2: // add paired (left and right) obstacle
+            default: // add paired (left and right) obstacle
                 break;
         }
     }

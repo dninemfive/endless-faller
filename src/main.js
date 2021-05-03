@@ -14,6 +14,10 @@ let keyLEFT, keyRIGHT; // globals so that player.update() can access them
 
 // basically an enum
 let STATES = { MAIN: 0, TRANSITION: 1, GAME: 2 };
+// Stores the current game state.
+// MAIN is basically the old main menu scene, with the titles and stuff.
+// GAME is the old play scene, with no title text and all the game objects spawning
+// TRANSITION transitions from MAIN to GAME, fading out the title and moving the player in from the top
 let state = STATES.MAIN;
 
 // global settings
@@ -32,7 +36,8 @@ let playerScale = 0.225,
     playerHealthPerTick = 0.00005,  // amount the player heals each tick
     backgroundScaleFactor = 0.0001, // modifies the amount the background moves, for parallax purposes
     blackoutFadeout = 0.02,         // how much (as a proportion of 100%) the blackout frame fades per tick
-    obstacleDelay = 300;            // how long, in ticks, before the obstacle counter begins
+    obstacleDelay = 300,            // how long, in ticks, before the obstacle counter begins
+    pointsPerObstacle = 100;        // how many points you get per obstacle. Multiplied by the log of the player's current speed.
 
 // if we make this a global we don't have to copy this to multiple contexts >.>
 let textConfigWhite = {
