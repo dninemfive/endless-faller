@@ -155,13 +155,14 @@ class Play extends Phaser.Scene {
     spawnObstacle(){
         let delta = (game.config.width - this.leftWall.displayWidth - this.rightWall.displayWidth) / 2;
         this.targetPos += Phaser.Math.Between(-delta, delta);
+        this.targetPos = Phaser.Math.Clamp(this.targetPos, this.leftWall.displayWidth, game.config.width - this.rightWall.displayWidth);
         let type = Phaser.Math.Between(0,1);        
         switch(type){
             case 0: // left obstacle only
                 this.spawnSingleObstacle(false);
                 break;
             case 1: // right obstacle only
-                this.spawnSingleObstacle(false);
+                this.spawnSingleObstacle(true);
                 break;
             default: // paired (left and right) obstacles
                 break;
@@ -170,20 +171,21 @@ class Play extends Phaser.Scene {
 
     spawnSingleObstacle(right = false) {        
         let obstacleWidth = obstacleWidthScale * 1500; //this.textures.get("leftObstacle").width;
-        console.log("right: " + right);
-        if(right){
+        console.log("right: " + right + "; targetPos: " + this.targetPos);
+        let obstaclePos;
+        if(right) {
             // position the right edge such that the left edge is the player's width away from the target pos
-            this.targetPos = Phaser.Math.Clamp(position,
+            obstaclePos = Phaser.Math.Clamp(this.targetPos,
                                          game.config.width + obstacleWidth,                 // at most so far left it can't be seen
                                          game.config.width - this.rightWall.displayWidth);  // at most so far right it's just barely touching the wall
         } else {
             // position the left edge such that the right edge is the player's width away from the target pos
-            this.targetPos = Phaser.Math.Clamp(this.targetPos,
+            obstaclePos = Phaser.Math.Clamp(this.targetPos,
                                          -obstacleWidth,                                    // at most so far left it can't be seen
                                          this.leftWall.displayWidth);                       // at most so far right it's just barely touching the wall
         }
         let tex = (right ? "righ" : "lef") + "tObstacle";
-        this.obstacles.add(new Obstacle(this, this.targetPos, game.config.height, tex).setOrigin(0,0).setScale(obstacleWidthScale, wallScale).setDepth(-1));
+        this.obstacles.add(new Obstacle(this, this.targetPos, game.config.height, tex).setOrigin(right, 0).setScale(obstacleWidthScale, wallScale).setDepth(-1));
     }
 
     checkCollision(player, obstacle) {
