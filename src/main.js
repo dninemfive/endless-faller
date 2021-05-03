@@ -12,6 +12,10 @@ let borderPadding = borderUISize / 3;
 
 let keyLEFT, keyRIGHT; // globals so that player.update() can access them
 
+// basically an enum
+let STATES = { MAIN: 0, TRANSITION: 1, GAME: 2 };
+let state = STATES.MAIN;
+
 // global settings
 let playerScale = 0.225,
     wallScale = 0.2,

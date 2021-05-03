@@ -13,10 +13,6 @@ class Play extends Phaser.Scene {
     }
 
     create(){
-        // basically an enum
-        this.STATES = { MAIN: 0, TRANSITION: 1, GAME: 2 };
-        this.state = this.STATES.MAIN;
-
         this.background = this.add.sprite(game.config.width / 2, 0,"background").setOrigin(0.5,0);
         this.background.setScale(game.config.width / this.background.width);
 
@@ -56,14 +52,14 @@ class Play extends Phaser.Scene {
     }
 
     update(){
-        switch(this.state){
-            case this.STATES.MAIN:
+        switch(state){
+            case STATES.MAIN:
                 this.doMainTick();
                 break;
-            case this.STATES.TRANSITION:
+            case STATES.TRANSITION:
                 this.doTransitionTick();
                 break;
-            case this.STATES.GAME:
+            case STATES.GAME:
                 this.doGameTick();
                 break;
         }        
@@ -71,7 +67,7 @@ class Play extends Phaser.Scene {
 
     doMainTick(){
         if(Phaser.Input.Keyboard.JustDown(this.keySPACE)) {
-            this.state = this.STATES.TRANSITION;
+            state = STATES.TRANSITION;
             this.startText.setVisible(false);
         }
         if (Phaser.Input.Keyboard.JustDown(this.keyDOWN)){
@@ -92,7 +88,7 @@ class Play extends Phaser.Scene {
             this.setZoom(this.zoom);
             this.title.alpha -= 10;
         } else{
-            this.state = this.STATES.GAME;
+            state = STATES.GAME;
         }
     }
 
@@ -101,7 +97,6 @@ class Play extends Phaser.Scene {
         this.leftWall.tilePositionY += this.fallSpeed;
         this.rightWall.tilePositionY += this.fallSpeed;
         this.player.update();
-        //this.zoom(1.001);
         this.counter += this.fallSpeed / 5;
         if(this.counter > obstacleSpawnPeriod){
             this.counter = 0;
@@ -123,7 +118,10 @@ class Play extends Phaser.Scene {
                 this.doCollision();
             }
         }       
-        if(this.player.hp <= 0) this.scene.start("lose"); 
+        if(this.player.hp <= 0) {
+            state = STATES.MAIN;
+            this.scene.start("lose"); 
+        }
         this.background.y -= this.fallSpeed * backgroundScaleFactor;
         this.fallSpeed = Phaser.Math.Clamp(this.fallSpeed, initialFallSpeed, maxFallSpeed);
     }

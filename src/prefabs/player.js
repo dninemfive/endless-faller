@@ -7,7 +7,7 @@ class Player extends Phaser.GameObjects.Sprite{
     }
     
     update(){
-        if(this.scene.state === this.scene.STATES.GAME){
+        if(state === STATES.GAME){
             let leftWall = this.scene.leftWall;
             let rightWall = this.scene.rightWall;
             if(keyLEFT.isDown) {

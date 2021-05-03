@@ -19,9 +19,11 @@ class Lose extends Phaser.Scene {
 
     update(){
         if (Phaser.Input.Keyboard.JustDown(this.keySPACE)){
-            this.scene.start("menu");
+            state = STATES.MAIN;
+            this.scene.start("play");
         }
         if (Phaser.Input.Keyboard.JustDown(this.keyR)){
+            state = STATES.GAME;
             this.scene.start("play");
         }
     }
