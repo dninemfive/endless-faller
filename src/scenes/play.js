@@ -43,6 +43,7 @@ class Play extends Phaser.Scene {
 
         this.score = 0;
         this.scoreLabel = this.add.text(this.leftWall.displayWidth, 0, this.score, textConfigDebug);
+        this.scoreLabel.alpha = 0;
         
         this.delayCounter = 0;
         this.obstacleCounter = 0;
@@ -114,6 +115,7 @@ class Play extends Phaser.Scene {
         } else {
             this.obstacleCounter += this.fallSpeed / 5;
             this.startText.alpha -= 0.1;
+            this.scoreLabel.alpha += 0.1;
         }        
         if(this.obstacleCounter > obstacleSpawnPeriod){
             this.obstacleCounter = 0;
