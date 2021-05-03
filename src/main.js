@@ -15,7 +15,7 @@ let keyLEFT, keyRIGHT; // globals so that player.update() can access them
 // global settings
 let playerScale = 0.1,
     wallScale = 0.2,
-    fallSpeed = 3,
+    fallSpeed = 5,
     playerStartPos = 0.3, // vertical location of the player, as a proportion of screen height
     backgroundScaleFactor = 0.9; // modifies the amount the background moves, for parallax purposes
 

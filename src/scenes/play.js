@@ -9,6 +9,7 @@ class Play extends Phaser.Scene {
         this.load.image("leftWall", "assets/FallingFallingBordersLeft.png");
         this.load.image("rightWall", "assets/FallingFallingBordersRight.png");
         this.load.image("leftObstacle", "assets/ObstacleBalconyLeft.png");
+        this.load.image("rightObstacle", "assets/ObstacleBalconyRight.png");
         this.load.spritesheet("player", "assets/FallingManSpritesheet.png", { frameWidth: 875, frameHeight: 304, startFrame: 0, endFrame: 1 });
     }
 
@@ -46,9 +47,16 @@ class Play extends Phaser.Scene {
             this.player.update();
         }
         //this.zoom(1.001);
-        if(((++this.counter) % 1000) == 0){
+        this.counter += Phaser.Math.Between(1, fallSpeed);
+        if((this.counter % 500) == 0){
+            fallSpeed += 0.1;
             console.log("trying to spawn a new obstacle");
-            this.obstacles.add(new Obstacle(this, 0, game.config.height, "leftObstacle").setOrigin(0,0).setScale(wallScale));
+            let leftright = Phaser.Math.Between(0,1);
+            if(!leftright){
+                this.obstacles.add(new Obstacle(this, 0, game.config.height, "leftObstacle").setOrigin(0,0).setScale(wallScale));
+            } else {
+                this.obstacles.add(new Obstacle(this, game.config.width, game.config.height, "rightObstacle").setOrigin(1,0).setScale(wallScale));
+            }
         }
         for(let obstacle of this.obstacles){
             obstacle.update();
