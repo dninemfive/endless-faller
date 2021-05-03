@@ -8,6 +8,7 @@ class Menu extends Phaser.Scene {
     }
 
     create(){
+        mainMenuConfig.fontSize = "50px";
         this.background = this.add.sprite(game.config.width / 2, 0,"background").setOrigin(0.5,0);
         this.background.setScale(game.config.width / this.background.width);
         this.add.text(game.config.width / 2, borderUISize + borderPadding, "H O R I Z O N   D O W N", mainMenuConfig).setOrigin(0.5);

@@ -4,14 +4,14 @@ class Lose extends Phaser.Scene {
     }
 
     preload(){
-        this.load.audio('sfx_select', './assets/blip_select12.wav');
-        this.load.audio('sfx_explosion', './assets/explosion38.wav');
-        this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
+        this.load.image("background", "assets/PlanetSkyScapeSmaller.png");
     }
 
     create(){
-        this.add.text(game.config.width / 2, borderUISize + borderPadding, " YOU LOST ", textConfig).setOrigin(0.5);
-        this.add.text(game.config.width / 2, game.config.height / 2, "Press R to restart or SPACE to return to menu", textConfig).setOrigin(0.5);
+        this.background = this.add.sprite(game.config.width / 2, 0,"background").setOrigin(0.5,0);
+        this.background.setScale(game.config.width / this.background.width);
+        this.add.text(game.config.width / 2, (game.config.height / 2) - (borderPadding * 2), "ripperoni", mainMenuConfig).setOrigin(0.5);
+        this.add.text(game.config.width / 2, (game.config.height / 2) + (borderPadding * 2), "press R to restart or SPACE to return to menu", mainMenuConfig).setOrigin(0.5);
         // might want to make this any key eventually
         this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
