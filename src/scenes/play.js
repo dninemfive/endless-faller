@@ -169,8 +169,8 @@ class Play extends Phaser.Scene {
     }
 
     spawnSingleObstacle(right = false) {        
-        console.log(obstacleWidthScale);
-        let obstacleWidth = obstacleWidthScale * this.textures.get("leftObstacle").width;
+        let obstacleWidth = obstacleWidthScale * 1500; //this.textures.get("leftObstacle").width;
+        console.log("right: " + right);
         if(right){
             // position the right edge such that the left edge is the player's width away from the target pos
             this.targetPos = Phaser.Math.Clamp(position,
