@@ -174,9 +174,9 @@ class Play extends Phaser.Scene {
         let obstaclePos;
         if(right) {
             // position the right edge such that the left edge is the player's width away from the target pos
-            obstaclePos = Phaser.Math.Clamp(this.targetPos + obstacleWidth,
-                                         game.config.width + obstacleWidth,                 // at most so far right it can't be seen
-                                         game.config.width - this.rightWall.displayWidth);  // at most so far left it's just barely touching the wall
+            obstaclePos = Phaser.Math.Clamp(this.targetPos + obstacleWidth,                                         
+                                         game.config.width - this.rightWall.displayWidth,   // at most so far left it's just barely touching the wall
+                                         game.config.width + obstacleWidth);                // at most so far right it can't be seen
         } else {
             // position the left edge such that the right edge is the player's width away from the target pos
             obstaclePos = Phaser.Math.Clamp(this.targetPos - obstacleWidth,
@@ -184,7 +184,10 @@ class Play extends Phaser.Scene {
                                          this.leftWall.displayWidth);                       // at most so far right it's just barely touching the wall
         }
         let tex = (right ? "righ" : "lef") + "tObstacle";
-        this.obstacles.add(new Obstacle(this, obstaclePos, game.config.height, tex).setOrigin(right ? 1 : 0, 0).setScale(obstacleWidthScale, wallScale).setDepth(-1));
+        let temp = new Obstacle(this, obstaclePos, game.config.height, tex).setOrigin(right ? 1 : 0, 0).setScale(obstacleWidthScale, wallScale).setDepth(-1);
+        console.log("x: " + temp.x + " y: " + temp.y + " right: " + right + " a: " + (this.targetPos + obstacleWidth) + " b: " + (game.config.width + obstacleWidth) + " c: " + (game.config.width - this.rightWall.displayWidth) + " ow: " + obstacleWidth + " tp: " + this.targetPos);
+        this.obstacles.add(temp);
+
     }
 
     checkCollision(player, obstacle) {
