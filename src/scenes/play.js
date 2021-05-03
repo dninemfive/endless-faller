@@ -212,16 +212,28 @@ class Play extends Phaser.Scene {
     }
 
     checkCollision(player, obstacle) {
-        if(obstacle.originX === 0){
-            if(player.x >= obstacle.x && player.x <= (obstacle.x + obstacle.displayWidth)){
-                return player.y >= obstacle.y && player.y <= obstacle.y + obstacle.displayHeight;
-            }
-        } else if(obstacle.originX === 1){ // note that any other origin value will break this
-            if(player.x >= (obstacle.x - obstacle.displayWidth) && player.x <= obstacle.x){
-                return player.y >= obstacle.y && player.y <= obstacle.y + obstacle.displayHeight;
-            }
-        }
+        let pCoords = getBounds(player), oCoords = getBounds(obstacle);
+        if(this.inBounds({ x: pCoords.x1, y: pCoords.y1}, oCoords)) return true;
+        if(this.inBounds({ x: pCoords.x1, y: pCoords.y2}, oCoords)) return true;
+        if(this.inBounds({ x: pCoords.x2, y: pCoords.y1}, oCoords)) return true;
+        if(this.inBounds({ x: pCoords.x2, y: pCoords.y2}, oCoords)) return true;
         return false;
+    }
+
+    // returns a an object holding numbers representing the leftmost, rightmost, topmost, and bottommost edges, in that order
+    getBounds(sprite){
+        return {
+            x1: sprite.x - (sprite.originX * sprite.displayWidth),
+            x2: sprite.x + ((1 - sprite.originX) * sprite.displayWidth),
+            y1: sprite.y - (sprite.originY * sprite.displayHeight),
+            y2: sprite.y + ((1 - sprite.originY) * sprite.displayHeight);
+        };
+    }
+    
+    // point: an object holding 2-dimensional coordinates
+    // box: an object holding numbers representing the outer edges of a box, as returned by getBounds
+    inBounds(point, box){
+        return point.x >= box.x1 && point.x <= box.x2 && point.y >= box.y1 && point.y <= box.y2;
     }
 
     doCollision(){
