@@ -138,6 +138,7 @@ class Play extends Phaser.Scene {
         }       
         if(this.player.hp <= 0) {
             state = STATES.MAIN;
+            if(score > highScore) highScore = score;
             this.scene.start("lose"); 
         }
         this.background.y -= this.fallSpeed * backgroundScaleFactor;
