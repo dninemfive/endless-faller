@@ -41,11 +41,7 @@ class Play extends Phaser.Scene {
     update(){
         this.leftWall.tilePositionY += fallSpeed;
         this.rightWall.tilePositionY += fallSpeed;
-        if(this.gameOver){
-            this.scene.start("lose"); 
-        } else {
-            this.player.update();
-        }
+        this.player.update();
         //this.zoom(1.001);
         this.counter += Phaser.Math.Between(1, fallSpeed);
         if((this.counter % 500) == 0){
@@ -60,15 +56,18 @@ class Play extends Phaser.Scene {
         }
         for(let obstacle of this.obstacles){
             obstacle.update();
-        }
+            if(this.checkCollision(this.player, obstacle)){
+                this.scene.start("lose");
+            }
+        }        
     }
 
     checkCollision(player, obstacle) {
         // simple AABB checking
-        if (player.x < obstacle.x + obstacle.width && 
-            player.x + player.width > obstacle.x && 
-            player.y < obstacle.y + obstacle.height &&
-            player.height + player.y > obstacle.y) {
+        if (player.x < obstacle.x + obstacle.displayWidth && 
+            player.x + player.displayWidth > obstacle.x && 
+            player.y < obstacle.y + obstacle.displayHeight &&
+            player.displayHeight + player.y > obstacle.y) {
                 return true;
         } else {
             return false;
