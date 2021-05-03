@@ -14,7 +14,7 @@ class Play extends Phaser.Scene {
 
     create(){
         
-        this.background = this.add.sprite(game.config.width / 2, 0,"background").setOrigin(0.5,0);
+        this.background = this.add.sprite(game.config.width / 2, 0,"background").setOrigin(0.5,0).setDepth(-2);
         this.background.setScale(game.config.width / this.background.width);
 
         mainMenuConfig.fontSize = "50px";
@@ -151,13 +151,13 @@ class Play extends Phaser.Scene {
                 this.obstacles.add(new Obstacle(this, 
                         Phaser.Math.Between(-100, this.leftWall.displayWidth), 
                         game.config.height, 
-                        "leftObstacle").setOrigin(0,0).setScale(wallScale * 1.6, wallScale));
+                        "leftObstacle").setOrigin(0,0).setScale(wallScale * 1.6, wallScale).setDepth(-1));
                 break;
             case 1: // add right obstacle
                 this.obstacles.add(new Obstacle(this, 
                     game.config.width - Phaser.Math.Between(-100, this.rightWall.displayWidth), 
                     game.config.height, 
-                    "rightObstacle").setOrigin(1,0).setScale(wallScale * 1.6, wallScale));
+                    "rightObstacle").setOrigin(1,0).setScale(wallScale * 1.6, wallScale).setDepth(-1));
                 break;
             case 2: // add paired (left and right) obstacle
                 break;
