@@ -36,7 +36,7 @@ let playerScale = 0.225,
 
 // if we make this a global we don't have to copy this to multiple contexts >.>
 let textConfigWhite = {
-    fontFamily: "Courier",
+    fontFamily: "Century Gothic",
     fontSize: "28px",
     backgroundColor: "#00000000",
     color: "#FFFFFF",
@@ -54,7 +54,7 @@ let textConfigBlack = {
     fixedWidth: 0
 }
 let textConfigDebug = {
-    fontFamily: "Courier",
+    fontFamily: "Century Gothic",
     fontSize: "28px",
     backgroundColor: "#00FF00",
     color: "#000000",

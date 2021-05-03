@@ -11,8 +11,8 @@ class Lore extends Phaser.Scene {
         let loreConfig = {
             fontFamily: 'Courier',
             fontSize: '25px',
-            backgroundColor: 'cyan',
-            color: 'white',
+            backgroundColor: '#00000000',
+            color: 'cyan',
             align: 'right',
             padding: {
               top: 1,
@@ -33,14 +33,15 @@ class Lore extends Phaser.Scene {
         this.add.text(game.config.width / 2, borderUISize*9 + borderPadding, "  bottom of the planet: The Core. With working teleportation", loreConfig).setOrigin(0.5);
         this.add.text(game.config.width / 2, borderUISize*10 + borderPadding, "  devices awaiting them there, those who dare take the fall,", loreConfig).setOrigin(0.5);
         this.add.text(game.config.width / 2, borderUISize*11 + borderPadding, "  and chance their luck with fate.", loreConfig).setOrigin(0.5);
-        this.add.text(game.config.width / 2, borderUISize*13 + borderPadding, " Press Up to return to Title Screen", loreConfig).setOrigin(0.5);
+        this.add.text(game.config.width / 2, game.config.height - (borderUISize + borderPadding), "press UP to return to menu", textConfigWhite).setOrigin(0.5);
         // might want to make this any key eventually
         this.keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
     }
 
     update(){
         if (Phaser.Input.Keyboard.JustDown(this.keyUP)){
-            this.scene.start("menu");
+            state = STATES.MAIN;
+            this.scene.start("play");
         }
     }
 }
