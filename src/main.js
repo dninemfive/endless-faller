@@ -25,13 +25,14 @@ let playerScale = 0.225,
     playerAcceleration = 0.5,
     playerDeceleration = 50,        // __divisor__ for player deceleration (higher values = less deceleration)
     playerMaxSpeed = 3,             // max player velocity
-    obstacleSpawnPeriod = 300,      // approximately how many update() calls between obstacle spawn. affected by randomness.
-    playerStartPos = 0.666,         // vertical location of the player, as a proportion of screen height; also max player health
-    obstacleDamage = 0.333,         // amount of damage the player takes from obstacles
-    fallSpeedDamage = 5,            // how much the player slows down when hitting an obstacle. will never fall below the initial fall speed
+    obstacleSpawnPeriod = 500,      // approximately how many update() calls between obstacle spawn. affected by randomness.
+    playerStartPos = 0.333,         // vertical location of the player, as a proportion of screen height; also max player health
+    obstacleDamage = 0.111,         // amount of damage the player takes from obstacles
+    fallSpeedDamage = 2,            // how much the player's speed is divided when hitting an obstacle. will never fall below the initial fall speed
     playerHealthPerTick = 0.001,    // amount the player heals each tick
-    backgroundScaleFactor = 0.001,   // modifies the amount the background moves, for parallax purposes
-    blackoutFadeout = 0.02;         // how much (as a proportion of 100%) the blackout frame fades per tick
+    backgroundScaleFactor = 0.0001,   // modifies the amount the background moves, for parallax purposes
+    blackoutFadeout = 0.02,         // how much (as a proportion of 100%) the blackout frame fades per tick
+    obstacleDelay = 1000;           // how long, in ticks, before the obstacle counter begins
 
 // if we make this a global we don't have to copy this to multiple contexts >.>
 let textConfig = {

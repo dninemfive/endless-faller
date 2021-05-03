@@ -21,6 +21,7 @@ class Play extends Phaser.Scene {
         this.title = this.add.text(game.config.width / 2, borderUISize + borderPadding, "H O R I Z O N   D O W N", mainMenuConfig).setOrigin(0.5);
         mainMenuConfig.fontSize = "28px";
         this.startText = this.add.text(game.config.width / 2, game.config.height - (borderUISize + borderPadding), "press SPACE to start", mainMenuConfig).setOrigin(0.5);
+        this.startText.alpha = 1;
 
         this.player = new Player(this, game.config.width / 2, -100, "player").setOrigin(0.5, 0.5);
         this.player.setScale(playerScale);
@@ -47,7 +48,8 @@ class Play extends Phaser.Scene {
         //this.scoreLabel = this.add.text(borderUISize + borderPadding, borderUISize + (borderPadding * 2), this.score, textConfig);
         //textConfig.fixedWidth = 0;
         
-        this.counter = 0;
+        this.delayCounter = 0;
+        this.obstacleCounter = 0;
         this.obstacles = new Set();
         this.fallSpeed = initialFallSpeed;
         this.zoom = 1.5;
@@ -80,7 +82,7 @@ class Play extends Phaser.Scene {
     doMainTick(){
         if(Phaser.Input.Keyboard.JustDown(this.keySPACE)) {
             state = STATES.TRANSITION;
-            this.startText.setVisible(false);
+            this.startText.alpha = 1;
         }
         if (Phaser.Input.Keyboard.JustDown(this.keyDOWN)){
             this.scene.start("lore"); 
@@ -101,6 +103,8 @@ class Play extends Phaser.Scene {
             this.title.alpha -= 0.025;
         } else{
             state = STATES.GAME;
+            this.startText.text = "use A and D to move left and right";
+            this.startText.alpha = 1;
         }
     }
 
@@ -109,9 +113,13 @@ class Play extends Phaser.Scene {
         this.leftWall.tilePositionY += this.fallSpeed;
         this.rightWall.tilePositionY += this.fallSpeed;
         this.player.update();
-        this.counter += this.fallSpeed / 5;
-        if(this.counter > obstacleSpawnPeriod){
-            this.counter = 0;
+        if((++this.delayCounter) <= obstacleDelay){
+        } else {
+            this.obstacleCounter += this.fallSpeed / 5;
+            this.startText.alpha -= 0.1;
+        }        
+        if(this.obstacleCounter > obstacleSpawnPeriod){
+            this.obstacleCounter = 0;
             this.fallSpeed *= fallSpeedIncrease;
             let leftright = Phaser.Math.Between(0,1);
             if(!leftright){
@@ -135,7 +143,6 @@ class Play extends Phaser.Scene {
             this.scene.start("lose"); 
         }
         this.background.y -= this.fallSpeed * backgroundScaleFactor;
-        this.background.x = (game.config.width / 2) - (this.player.x * backgroundScaleFactor * 10);
         this.fallSpeed = Phaser.Math.Clamp(this.fallSpeed, initialFallSpeed, maxFallSpeed);
         if(this.blackout.alpha > 0){
             this.blackout.alpha -= blackoutFadeout;
@@ -167,7 +174,7 @@ class Play extends Phaser.Scene {
         }
         this.leftWall.tilePositionY += obstacleDamage * game.config.height * extraMoveAmt * 5;
         this.rightWall.tilePositionY += obstacleDamage * game.config.height * extraMoveAmt * 5;
-        this.fallSpeed -= fallSpeedDamage;
+        this.fallSpeed /= fallSpeedDamage;
         this.blackout.alpha = 1;
     }    
 }
