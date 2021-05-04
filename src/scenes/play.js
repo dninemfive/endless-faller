@@ -194,13 +194,13 @@ class Play extends Phaser.Scene {
             obstaclePos = Phaser.Math.Clamp(this.targetPos + obstacleWidth,                                         
                                          game.config.width - this.rightWall.displayWidth,   // at most so far left it's just barely touching the wall
                                          game.config.width + obstacleWidth - obstacleOffset);                // at most so far right it can't be seen
-            this.spawnCollectible(this.leftWall.displayWidth, obstaclePos - obstacleWidth);
+            if (collectible) this.spawnCollectible(this.leftWall.displayWidth, obstaclePos - obstacleWidth);
         } else {
             // position the left edge such that the right edge is the player's width away from the target pos
             obstaclePos = Phaser.Math.Clamp(this.targetPos - obstacleWidth,
                                          -obstacleWidth + obstacleOffset,                   // at most so far left it can't be seen
                                          this.leftWall.displayWidth);                       // at most so far right it's just barely touching the wall
-            this.spawnCollectible(obstaclePos + obstacleWidth, game.config.width - this.rightWall.displayWidth);
+            if (collectible) this.spawnCollectible(obstaclePos + obstacleWidth, game.config.width - this.rightWall.displayWidth);
         }
         let tex = (right ? "righ" : "lef") + "tObstacle";
         let temp = new Obstacle(this, obstaclePos, game.config.height, tex).setOrigin(right ? 1 : 0, 0).setScale(obstacleWidthScale, wallScale).setDepth(-1);
