@@ -10,7 +10,8 @@ class Play extends Phaser.Scene {
         this.load.image("rightWall", "assets/FallingFallingBordersRight.png");
         this.load.image("leftObstacle", "assets/ObstacleBalconyLeft.png");
         this.load.image("rightObstacle", "assets/ObstacleBalconyRight.png");  
-        this.load.image("collectible", "assets/CoreMap.png");      
+        this.load.image("collectible", "assets/CoreMap.png");
+        this.load.audio("bgmusic", "assets/RunnerScore1.wav");
     }
 
     create(){
@@ -70,6 +71,10 @@ class Play extends Phaser.Scene {
         }
 
         this.paused = false;
+
+        // https://rexrainbow.github.io/phaser3-rex-notes/docs/site/audio/
+        this.music = this.sound.add("bgmusic", { loop: true });
+        this.music.play();
     }
 
     update(){
