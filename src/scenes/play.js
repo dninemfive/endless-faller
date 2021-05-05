@@ -74,7 +74,8 @@ class Play extends Phaser.Scene {
         this.paused = false;
 
         // https://rexrainbow.github.io/phaser3-rex-notes/docs/site/audio/
-        this.music = this.sound.add("bgmusic", { loop: true });        
+        this.music = this.sound.add("bgmusic", { loop: true });     
+        this.crash = this.sound.add("crash");
     }
 
     update(){
@@ -247,7 +248,8 @@ class Play extends Phaser.Scene {
     }
 
     doCollision(){
-        this.sound.play("crash");
+        if(this.crash.isPlaying) this.crash.stop();
+        this.crash.play();
         let extraMoveAmt = 1.3; // to ensure the player doesn't infinitely clip into obstacles
         this.player.hp -= obstacleDamage;
         for(let obstacle of this.obstacles){
