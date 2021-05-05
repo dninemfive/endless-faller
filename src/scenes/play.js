@@ -12,6 +12,7 @@ class Play extends Phaser.Scene {
         this.load.image("rightObstacle", "assets/ObstacleBalconyRight.png");  
         this.load.image("collectible", "assets/CoreMap.png");
         this.load.audio("bgmusic", "assets/RunnnerScore1.wav");
+        this.load.audio("crash", "assets/RunnerCrash2.wav");
     }
 
     create(){
@@ -246,6 +247,7 @@ class Play extends Phaser.Scene {
     }
 
     doCollision(){
+        this.sound.play("crash");
         let extraMoveAmt = 1.3; // to ensure the player doesn't infinitely clip into obstacles
         this.player.hp -= obstacleDamage;
         for(let obstacle of this.obstacles){
