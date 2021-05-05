@@ -50,7 +50,7 @@ let playerScale = 0.225,
     wallScale = 0.2,
     initialFallSpeed = 10,         // minimum and initial fall speed
     fallSpeedIncrease = 1.1,       // how much the player's fall speed increases each time an obstacle spawns, as a factor of their current speed
-    maxFallSpeed = 50,
+    maxFallSpeed = 35,
     playerAcceleration = 0.5,
     playerDeceleration = 50,        // __divisor__ for player deceleration (higher values = less deceleration)
     playerMaxSpeed = 3,             // max player velocity
