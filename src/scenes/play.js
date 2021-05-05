@@ -59,12 +59,17 @@ class Play extends Phaser.Scene {
 
         this.targetPos = game.config.width / 2; // obstacles will be placed in order to avoid this point
         
+        // https://rexrainbow.github.io/phaser3-rex-notes/docs/site/audio/
+        this.music = this.sound.add("bgmusic", { loop: true });     
+        this.crash = this.sound.add("crash");
+
         switch(state){
             case STATES.GAME:
                 this.title.setVisible(false);
                 this.startText.setVisible(false);
                 this.delayCounter = obstacleDelay;
                 this.startText.alpha = 0;
+                this.music.play();
                 break;
             default:
                 this.setZoom(this.zoom);
@@ -73,9 +78,7 @@ class Play extends Phaser.Scene {
 
         this.paused = false;
 
-        // https://rexrainbow.github.io/phaser3-rex-notes/docs/site/audio/
-        this.music = this.sound.add("bgmusic", { loop: true });     
-        this.crash = this.sound.add("crash");
+        
     }
 
     update(){
