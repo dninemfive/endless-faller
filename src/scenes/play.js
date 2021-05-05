@@ -11,7 +11,7 @@ class Play extends Phaser.Scene {
         this.load.image("leftObstacle", "assets/ObstacleBalconyLeft.png");
         this.load.image("rightObstacle", "assets/ObstacleBalconyRight.png");  
         this.load.image("collectible", "assets/CoreMap.png");
-        this.load.audio("bgmusic", "assets/RunnerScore1.wav");
+        this.load.audio("bgmusic", "assets/RunnnerScore1.wav");
     }
 
     create(){
@@ -73,8 +73,7 @@ class Play extends Phaser.Scene {
         this.paused = false;
 
         // https://rexrainbow.github.io/phaser3-rex-notes/docs/site/audio/
-        this.music = this.sound.add("bgmusic", { loop: true });
-        this.music.play();
+        this.music = this.sound.add("bgmusic", { loop: true });        
     }
 
     update(){
@@ -95,6 +94,7 @@ class Play extends Phaser.Scene {
         if(Phaser.Input.Keyboard.JustDown(this.keySPACE)) {
             state = STATES.TRANSITION;
             this.startText.alpha = 1;
+            this.music.play();
         }
         if (Phaser.Input.Keyboard.JustDown(this.keyDOWN)){
             this.scene.start("lore"); 
